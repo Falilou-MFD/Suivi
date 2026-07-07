@@ -1,0 +1,5 @@
+reflex
+pandas
+duckdb
+openpyxl
+reflex==0.9.6.post1

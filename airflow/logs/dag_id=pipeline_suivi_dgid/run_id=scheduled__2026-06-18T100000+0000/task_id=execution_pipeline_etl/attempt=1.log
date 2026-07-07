@@ -1,0 +1,34 @@
+[2026-06-18T11:00:00.944+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-18T10:00:00+00:00 [queued]>
+[2026-06-18T11:00:00.956+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-18T10:00:00+00:00 [queued]>
+[2026-06-18T11:00:00.957+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-06-18T11:00:00.982+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-18 10:00:00+00:00
+[2026-06-18T11:00:00.988+0000] {standard_task_runner.py:57} INFO - Started process 385 to run task
+[2026-06-18T11:00:00.992+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_suivi_dgid', 'execution_pipeline_etl', 'scheduled__2026-06-18T10:00:00+00:00', '--job-id', '67', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpn5cs88dc']
+[2026-06-18T11:00:00.995+0000] {standard_task_runner.py:85} INFO - Job 67: Subtask execution_pipeline_etl
+[2026-06-18T11:00:01.062+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-18T10:00:00+00:00 [running]> on host 8680a5c0def4
+[2026-06-18T11:00:01.179+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_suivi_dgid' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-18T10:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-18T10:00:00+00:00'
+[2026-06-18T11:00:01.238+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-18T11:00:04.128+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre pour Dakar Plateau...
+📥 Extraction de Domaines pour Dakar Plateau...
+📥 Extraction de Conservation pour Dakar Plateau...
+🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+⚡ Chargement dans DuckDB...
+[2026-06-18T11:00:04.129+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 102, in <module>
+[2026-06-18T11:00:04.129+0000] {docker.py:406} INFO - extract_and_transform()
+  File "/app/main.py", line 94, in extract_and_transform
+[2026-06-18T11:00:04.130+0000] {docker.py:406} INFO - con = duckdb.connect(duckdb_path)
+_duckdb.IOException: IO Error: Could not set lock on file "/app/duckdb_store/analytics.duckdb": Conflicting lock is held in PID 0. See also https://duckdb.org/docs/stable/connect/concurrency
+[2026-06-18T11:00:04.564+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-06-18T11:00:04.568+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_suivi_dgid, task_id=execution_pipeline_etl, execution_date=20260618T100000, start_date=20260618T110000, end_date=20260618T110004
+[2026-06-18T11:00:04.589+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 67 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 385)
+[2026-06-18T11:00:04.626+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-18T11:00:04.648+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

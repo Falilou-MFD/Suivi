@@ -1,0 +1,34 @@
+[2026-06-17T11:15:55.895+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T11:15:53.173235+00:00 [queued]>
+[2026-06-17T11:15:55.940+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T11:15:53.173235+00:00 [queued]>
+[2026-06-17T11:15:55.940+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-06-17T11:15:55.981+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-17 11:15:53.173235+00:00
+[2026-06-17T11:15:55.997+0000] {standard_task_runner.py:57} INFO - Started process 2023 to run task
+[2026-06-17T11:15:56.021+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_suivi_dgid', 'execution_pipeline_etl', 'manual__2026-06-17T11:15:53.173235+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmp053f3hig']
+[2026-06-17T11:15:56.051+0000] {standard_task_runner.py:85} INFO - Job 12: Subtask execution_pipeline_etl
+[2026-06-17T11:15:56.383+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T11:15:53.173235+00:00 [running]> on host eed13e231cb9
+[2026-06-17T11:15:56.678+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_suivi_dgid' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-17T11:15:53.173235+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-17T11:15:53.173235+00:00'
+[2026-06-17T11:15:56.832+0000] {docker.py:463} INFO - Pulling docker image suivi_data_processor:latest
+[2026-06-17T11:15:58.811+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 268, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http+docker://localhost/v1.54/images/create?tag=latest&fromImage=suivi_data_processor
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 465, in execute
+    for output in self.cli.pull(self.image, stream=True, decode=True):
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/image.py", line 429, in pull
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 270, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.ImageNotFound: 404 Client Error for http+docker://localhost/v1.54/images/create?tag=latest&fromImage=suivi_data_processor: Not Found ("pull access denied for suivi_data_processor, repository does not exist or may require 'docker login'")
+[2026-06-17T11:15:58.830+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_suivi_dgid, task_id=execution_pipeline_etl, execution_date=20260617T111553, start_date=20260617T111555, end_date=20260617T111558
+[2026-06-17T11:15:58.849+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 12 for task execution_pipeline_etl (404 Client Error for http+docker://localhost/v1.54/images/create?tag=latest&fromImage=suivi_data_processor: Not Found ("pull access denied for suivi_data_processor, repository does not exist or may require 'docker login'"); 2023)
+[2026-06-17T11:15:58.890+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-17T11:15:58.916+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

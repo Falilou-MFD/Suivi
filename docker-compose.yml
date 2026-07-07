@@ -1,0 +1,130 @@
+services:
+  postgres_db:
+    image: postgres:17.10
+    container_name: postgres_suivi_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: postgres
+      # Note : cette variable sera lue si ton script d'init gère le multi-base
+      POSTGRES_MULTIPLE_DATABASES: "cadastre_db,domaines_db,conservation_db"
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Ton script d'initialisation (actuel ou futur init_db.sh multi-CSF)
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
+      - ./backups:/backups
+      # - ./Keycloak_db:/Keycloak_db
+      - ./Keycloak_db:/keycloak_files
+    networks:
+      - suivi_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_suivi_
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin # 💡 CORRIGÉ : Utilise le volume nommé pour éviter le PermissionError
+    networks:
+      - suivi_network
+    depends_on:
+      - postgres_db
+
+  data_processor:
+    build: ./script/
+    image: suivi_data_processor:v1
+    container_name: data_processor_suivi_
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=12345678
+      - DB_HOST=postgres_db
+    volumes:
+      - ./exports:/app/exports
+    networks:
+      - suivi_network
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  airflow_scheduler:
+    image: apache/airflow:2.7.2-python3.10
+    container_name: airflow_scheduler_suivi
+    command: scheduler
+    user: root
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:12345678@postgres_db:5432/postgres
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - _AIRFLOW_DB_UPGRADE=true
+      - AIRFLOW__WEBSERVER__SECRET_KEY=dgid_secret_key_2026_local
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+      - duckdb_data:/app/duckdb_store # 💡 L'entrepôt DuckDB partagé
+    networks:
+      - suivi_network
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  airflow_webserver:
+    image: apache/airflow:2.7.2-python3.10
+    container_name: airflow_webserver_suivi
+    command: webserver
+    ports:
+      - "8085:8080"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:12345678@postgres_db:5432/postgres
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - _AIRFLOW_DB_UPGRADE=true
+      - _AIRFLOW_WWW_USER_CREATE=true
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
+      - AIRFLOW__WEBSERVER__SECRET_KEY=dgid_secret_key_2026_local
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+    networks:
+      - suivi_network
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  reflex_app:
+    build: ./reflex-app
+    container_name: reflex_suivi_ui
+    ports:
+      - "3000:3000"
+      - "8000:8000"
+    environment:
+      - DUCKDB_PATH=/app/duckdb_store/analytics.duckdb
+    volumes:
+      - duckdb_data:/app/duckdb_store # 💡 CORRIGÉ : Reflex utilise EXACTEMENT le même volume qu'Airflow pour lire la BD
+      - C:\Users\sndiagnemf\Desktop\Suivi\Automatisation\Complet\reflex-app\suivi_app.py:/app/suivi_app/suivi_app.py
+    networks:
+      - suivi_network
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+networks:
+  suivi_network:
+    name: suivi_network
+
+volumes:
+  pgdata:
+  pgadmin_data: # 💡 Déclaré ici pour isoler proprement SQLite de pgAdmin
+  duckdb_data:  # 💡 Volume partagé unique pour l'analytics DuckDB entre Airflow et Reflex
+    name: dgid_duckdb_shared

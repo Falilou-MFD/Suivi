@@ -1,0 +1,19 @@
+[2026-06-19T08:56:24.469+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-19T06:00:00+00:00 [queued]>
+[2026-06-19T08:56:24.600+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-19T06:00:00+00:00 [queued]>
+[2026-06-19T08:56:24.621+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-06-19T08:56:24.767+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-19 06:00:00+00:00
+[2026-06-19T08:56:24.803+0000] {standard_task_runner.py:57} INFO - Started process 951 to run task
+[2026-06-19T08:56:24.865+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_suivi_dgid', 'execution_pipeline_etl', 'scheduled__2026-06-19T06:00:00+00:00', '--job-id', '92', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpisnd4t7z']
+[2026-06-19T08:56:24.895+0000] {standard_task_runner.py:85} INFO - Job 92: Subtask execution_pipeline_etl
+[2026-06-19T08:56:25.343+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl scheduled__2026-06-19T06:00:00+00:00 [running]> on host 05d952af827d
+[2026-06-19T08:56:25.937+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_suivi_dgid' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-19T06:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-19T06:00:00+00:00'
+[2026-06-19T08:56:26.727+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-19T08:57:51.351+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre pour Dakar Plateau...
+📥 Extraction de Domaines pour Dakar Plateau...
+📥 Extraction de Conservation pour Dakar Plateau...
+🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+⚡ Chargement dans DuckDB...
+✅ Data Warehouse DuckDB mis à jour avec succès pour Dakar Plateau !
+[2026-06-19T08:57:56.510+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=pipeline_suivi_dgid, task_id=execution_pipeline_etl, execution_date=20260619T060000, start_date=20260619T085624, end_date=20260619T085756
+[2026-06-19T08:57:56.880+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2026-06-19T08:57:57.244+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

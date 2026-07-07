@@ -1,0 +1,11 @@
+version: "3"
+agent:
+  authtoken: 2vDipIQmBptqTXgkiODAj9LKpab_5vGhtuXyS6vyjahS4vP35
+  
+tunnels:
+  reflex_frontend:
+    proto: http
+    addr: 3000
+  reflex_backend:
+    proto: http
+    addr: 8000

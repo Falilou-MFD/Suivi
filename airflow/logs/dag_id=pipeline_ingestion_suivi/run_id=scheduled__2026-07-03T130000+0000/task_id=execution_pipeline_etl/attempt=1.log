@@ -1,0 +1,262 @@
+[2026-07-03T15:14:03.560+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-03T13:00:00+00:00 [queued]>
+[2026-07-03T15:14:03.574+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-03T13:00:00+00:00 [queued]>
+[2026-07-03T15:14:03.575+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-07-03T15:14:03.594+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-07-03 13:00:00+00:00
+[2026-07-03T15:14:03.606+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-07-03T13:00:00+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpygq4bmf4']
+[2026-07-03T15:14:03.601+0000] {standard_task_runner.py:57} INFO - Started process 487 to run task
+[2026-07-03T15:14:03.612+0000] {standard_task_runner.py:85} INFO - Job 16: Subtask execution_pipeline_etl
+[2026-07-03T15:14:03.705+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-03T13:00:00+00:00 [running]> on host d6dbcba51954
+[2026-07-03T15:14:03.889+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-07-03T13:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-07-03T13:00:00+00:00'
+[2026-07-03T15:14:04.018+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-07-03T15:14:06.809+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Dakar Plateau (dkp)
+  📥 Extraction de Cadastre depuis [cadastre_dkp_db]...
+[2026-07-03T15:14:06.943+0000] {docker.py:406} INFO - ⚠️ Échec sur cadastre_dkp_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Domaines depuis [domaines_dkp_db]...
+[2026-07-03T15:14:06.958+0000] {docker.py:406} INFO - ⚠️ Échec sur domaines_dkp_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Conservation depuis [conservation_dkp_db]...
+[2026-07-03T15:14:06.976+0000] {docker.py:406} INFO - ⚠️ Échec sur conservation_dkp_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+🌍 Début de l'extraction pour le site : Ngor-Almadies (nga)
+  📥 Extraction de Cadastre depuis [cadastre_nga_db]...
+[2026-07-03T15:14:07.005+0000] {docker.py:406} INFO - ⚠️ Échec sur cadastre_nga_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Domaines depuis [domaines_nga_db]...
+[2026-07-03T15:14:07.026+0000] {docker.py:406} INFO - ⚠️ Échec sur domaines_nga_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Conservation depuis [conservation_nga_db]...
+[2026-07-03T15:14:07.048+0000] {docker.py:406} INFO - ⚠️ Échec sur conservation_nga_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+🌍 Début de l'extraction pour le site : Mbour (mb)
+  📥 Extraction de Cadastre depuis [cadastre_mb_db]...
+[2026-07-03T15:14:07.080+0000] {docker.py:406} INFO - ⚠️ Échec sur cadastre_mb_db : (psycopg2.errors.UndefinedTable) relation "public.e_s_record" does not exist
+LINE 14:         FROM public.e_s_record r
+                      ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Domaines depuis [domaines_mb_db]...
+[2026-07-03T15:14:07.108+0000] {docker.py:406} INFO - ⚠️ Échec sur domaines_mb_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+  📥 Extraction de Conservation depuis [conservation_mb_db]...
+[2026-07-03T15:14:07.132+0000] {docker.py:406} INFO - ⚠️ Échec sur conservation_mb_db : (psycopg2.errors.UndefinedTable) relation "public.user_entity" does not exist
+LINE 15:         LEFT JOIN public.user_entity u ON r.user_id = u.id
+                           ^
+
+[SQL: 
+        SELECT 
+            u.first_name || ' ' || u.last_name AS operateur,
+            r.record_date AS registration_date,
+            r.return_date AS date_retour,
+            r.folder_is_update AS dossier_mis_a_jour,
+            r.is_for_scan, 
+            r.folder_number AS numero_dossier,
+            c.code AS csf_code, 
+            c.label AS csf_label,
+            cl.value AS motif_enregistrement, 
+            i.is_unique_item,
+            f.label AS folder_label
+        FROM public.e_s_record r
+        LEFT JOIN public.user_entity u ON r.user_id = u.id
+        LEFT JOIN public.csf c ON r.csf_uid = c.uid
+        LEFT JOIN public.code_list cl ON r.record_type = cl.uid
+        LEFT JOIN public.recorded_item ri ON r.uid = ri.record_ref
+        LEFT JOIN public.item i ON ri.item_ref = i.uid
+        LEFT JOIN public.folder f ON i.folder_id = f.uid;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+❌ Aucune donnée extraite sur l'ensemble des sites.
+[2026-07-03T15:14:08.174+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260703T130000, start_date=20260703T151403, end_date=20260703T151408
+[2026-07-03T15:14:08.316+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2026-07-03T15:14:08.418+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

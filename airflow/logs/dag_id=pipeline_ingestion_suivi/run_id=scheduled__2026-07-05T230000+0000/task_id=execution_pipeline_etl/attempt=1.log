@@ -1,0 +1,49 @@
+[2026-07-06T05:29:05.286+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-05T23:00:00+00:00 [queued]>
+[2026-07-06T05:29:05.347+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-05T23:00:00+00:00 [queued]>
+[2026-07-06T05:29:05.362+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-07-06T05:29:05.771+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-07-05 23:00:00+00:00
+[2026-07-06T05:29:05.797+0000] {standard_task_runner.py:57} INFO - Started process 910 to run task
+[2026-07-06T05:29:05.816+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-07-05T23:00:00+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmp6_88d42d']
+[2026-07-06T05:29:05.842+0000] {standard_task_runner.py:85} INFO - Job 13: Subtask execution_pipeline_etl
+[2026-07-06T05:29:06.405+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-05T23:00:00+00:00 [running]> on host 6e0a98784e3f
+[2026-07-06T05:29:07.049+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-07-05T23:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-07-05T23:00:00+00:00'
+[2026-07-06T05:29:07.625+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-07-06T08:47:47.393+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Dakar Plateau (dkp)
+  📥 Extraction de Cadastre depuis [cadastre_dkp_db]...
+[2026-07-06T08:47:54.562+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_dkp_db]...
+[2026-07-06T08:47:56.386+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_dkp_db]...
+[2026-07-06T08:48:03.042+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Ngor-Almadies (nga)
+[2026-07-06T08:48:03.072+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre depuis [cadastre_nga_db]...
+[2026-07-06T08:48:10.540+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_nga_db]...
+[2026-07-06T08:48:13.850+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_nga_db]...
+[2026-07-06T08:48:16.741+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Mbour (mb)
+  📥 Extraction de Cadastre depuis [cadastre_mb_db]...
+[2026-07-06T08:48:18.558+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_mb_db]...
+[2026-07-06T08:48:18.629+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_mb_db]...
+[2026-07-06T08:48:19.616+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-06T08:48:19.628+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-06T08:48:19.634+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-06T08:48:19.865+0000] {docker.py:406} INFO - 🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+[2026-07-06T08:48:19.913+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 177, in <module>
+[2026-07-06T08:48:19.914+0000] {docker.py:406} INFO - extract_and_transform()
+  File "/app/main.py", line 135, in extract_and_transform
+[2026-07-06T08:48:19.915+0000] {docker.py:406} INFO - con = duckdb.connect(duckdb_path)
+_duckdb.IOException:
+[2026-07-06T08:48:19.916+0000] {docker.py:406} INFO - IO Error: Could not set lock on file "/app/duckdb_store/analytics.duckdb": Conflicting lock is held in PID 0. See also https://duckdb.org/docs/stable/connect/concurrency
+[2026-07-06T08:48:22.200+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-06T08:48:22.210+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260705T230000, start_date=20260706T052905, end_date=20260706T084822
+[2026-07-06T08:48:22.291+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 13 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 910)
+[2026-07-06T08:48:22.360+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-07-06T08:48:22.463+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

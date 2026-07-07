@@ -1,0 +1,71 @@
+[2026-06-17T12:58:01.405+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T12:58:00.438211+00:00 [queued]>
+[2026-06-17T12:58:01.411+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T12:58:00.438211+00:00 [queued]>
+[2026-06-17T12:58:01.412+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-06-17T12:58:01.425+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-17 12:58:00.438211+00:00
+[2026-06-17T12:58:01.430+0000] {standard_task_runner.py:57} INFO - Started process 190 to run task
+[2026-06-17T12:58:01.434+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_suivi_dgid', 'execution_pipeline_etl', 'manual__2026-06-17T12:58:00.438211+00:00', '--job-id', '29', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpq_57lm3v']
+[2026-06-17T12:58:01.437+0000] {standard_task_runner.py:85} INFO - Job 29: Subtask execution_pipeline_etl
+[2026-06-17T12:58:01.491+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_suivi_dgid.execution_pipeline_etl manual__2026-06-17T12:58:00.438211+00:00 [running]> on host 64d03148fcca
+[2026-06-17T12:58:01.574+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_suivi_dgid' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-17T12:58:00.438211+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-17T12:58:00.438211+00:00'
+[2026-06-17T12:58:01.623+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-17T12:58:01.630+0000] {docker.py:345} WARNING - Using remote engine or docker-in-docker and mounting temporary volume from host is not supported. Falling back to `mount_tmp_dir=False` mode. You can set `mount_tmp_dir` parameter to False to disable mounting and remove the warning
+[2026-06-17T12:58:01.653+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 268, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create?name=data_processor_suivi_
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 342, in _run_image
+    return self._run_image_with_mounts([*self.mounts, tmp_mount], add_tmp_variable=True)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 369, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 431, in create_container
+    return self.create_container_from_config(config, name, platform)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 448, in create_container_from_config
+    return self._result(res, True)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 274, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 270, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create?name=data_processor_suivi_: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /tmp/airflowtmpjrt8nsyb")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 268, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 409 Client Error: Conflict for url: http+docker://localhost/v1.54/containers/create?name=data_processor_suivi_
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 351, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 369, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 431, in create_container
+    return self.create_container_from_config(config, name, platform)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 448, in create_container_from_config
+    return self._result(res, True)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 274, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 270, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 409 Client Error for http+docker://localhost/v1.54/containers/create?name=data_processor_suivi_: Conflict ("Conflict. The container name "/data_processor_suivi_" is already in use by container "d95fa88cb9530a38e4b9adb6b2161011840f576640a54c7033f1a517799ee280". You have to remove (or rename) that container to be able to reuse that name.")
+[2026-06-17T12:58:01.665+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_suivi_dgid, task_id=execution_pipeline_etl, execution_date=20260617T125800, start_date=20260617T125801, end_date=20260617T125801
+[2026-06-17T12:58:01.676+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 29 for task execution_pipeline_etl (409 Client Error for http+docker://localhost/v1.54/containers/create?name=data_processor_suivi_: Conflict ("Conflict. The container name "/data_processor_suivi_" is already in use by container "d95fa88cb9530a38e4b9adb6b2161011840f576640a54c7033f1a517799ee280". You have to remove (or rename) that container to be able to reuse that name."); 190)
+[2026-06-17T12:58:01.687+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-17T12:58:01.702+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

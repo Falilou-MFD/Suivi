@@ -1,0 +1,34 @@
+[2026-06-24T23:24:27.020+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-06-24T22:00:00+00:00 [queued]>
+[2026-06-24T23:24:27.033+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-06-24T22:00:00+00:00 [queued]>
+[2026-06-24T23:24:27.034+0000] {taskinstance.py:1361} INFO - Starting attempt 2 of 2
+[2026-06-24T23:24:27.055+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-24 22:00:00+00:00
+[2026-06-24T23:24:27.066+0000] {standard_task_runner.py:57} INFO - Started process 207 to run task
+[2026-06-24T23:24:27.079+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-06-24T22:00:00+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmp3ai6wi2b']
+[2026-06-24T23:24:27.089+0000] {standard_task_runner.py:85} INFO - Job 5: Subtask execution_pipeline_etl
+[2026-06-24T23:24:27.225+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-06-24T22:00:00+00:00 [running]> on host 7723e9c57744
+[2026-06-24T23:24:27.398+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-24T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-24T22:00:00+00:00'
+[2026-06-24T23:24:27.540+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-24T23:24:34.881+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 149, in <module>
+[2026-06-24T23:24:34.883+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre pour Dakar Plateau...
+📥 Extraction de Domaines pour Dakar Plateau...
+📥 Extraction de Conservation pour Dakar Plateau...
+🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+⚡ Chargement des données uniques et nettoyées dans DuckDB...
+[2026-06-24T23:24:34.884+0000] {docker.py:406} INFO - extract_and_transform()
+  File "/app/main.py", line 144, in extract_and_transform
+[2026-06-24T23:24:34.885+0000] {docker.py:406} INFO - con.execute("INSERT INTO fact_suivi_global SELECT * FROM df_total")
+_duckdb.BinderException: Binder Error: table fact_suivi_global has 18 columns but 19 values were supplied
+[2026-06-24T23:24:35.521+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-06-24T23:24:35.530+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260624T220000, start_date=20260624T232427, end_date=20260624T232435
+[2026-06-24T23:24:35.570+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 5 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 207)
+[2026-06-24T23:24:35.625+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-24T23:24:35.669+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Suivi",
+      "Group": "Servers",
+      "Host": "postgres_db",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "Password": "12345678",
+      "SSLMode": "prefer"
+    }
+  }
+}

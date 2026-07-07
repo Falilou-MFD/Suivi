@@ -1,0 +1,40 @@
+[2026-06-25T08:54:45.311+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T08:54:44.504346+00:00 [queued]>
+[2026-06-25T08:54:45.317+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T08:54:44.504346+00:00 [queued]>
+[2026-06-25T08:54:45.317+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-06-25T08:54:45.331+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-25 08:54:44.504346+00:00
+[2026-06-25T08:54:45.337+0000] {standard_task_runner.py:57} INFO - Started process 185 to run task
+[2026-06-25T08:54:45.340+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'manual__2026-06-25T08:54:44.504346+00:00', '--job-id', '19', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmp52ow2zqv']
+[2026-06-25T08:54:45.343+0000] {standard_task_runner.py:85} INFO - Job 19: Subtask execution_pipeline_etl
+[2026-06-25T08:54:45.405+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T08:54:44.504346+00:00 [running]> on host 4b1ab4dd4411
+[2026-06-25T08:54:45.499+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-25T08:54:44.504346+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-25T08:54:44.504346+00:00'
+[2026-06-25T08:54:45.543+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-25T08:54:48.628+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 183, in <module>
+    extract_and_transform()
+  File "/app/main.py", line 175, in extract_and_transform
+    df_to_insert = df_total[final_db_columns]
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+[2026-06-25T08:54:48.628+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre pour Dakar Plateau...
+📥 Extraction de Domaines pour Dakar Plateau...
+📥 Extraction de Conservation pour Dakar Plateau...
+🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+⚡ Chargement des données uniques et nettoyées dans DuckDB...
+[2026-06-25T08:54:48.629+0000] {docker.py:406} INFO - indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+[2026-06-25T08:54:48.629+0000] {docker.py:406} INFO - self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+[2026-06-25T08:54:48.630+0000] {docker.py:406} INFO - raise KeyError(f"{not_found} not in index")
+KeyError: "['Bureau_origine'] not in index"
+[2026-06-25T08:54:49.042+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-06-25T08:54:49.046+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260625T085444, start_date=20260625T085445, end_date=20260625T085449
+[2026-06-25T08:54:49.064+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 19 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 185)
+[2026-06-25T08:54:49.079+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-25T08:54:49.102+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

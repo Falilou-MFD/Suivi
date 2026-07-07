@@ -1,0 +1,34 @@
+[2026-06-25T09:59:42.635+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T09:58:37.639607+00:00 [queued]>
+[2026-06-25T09:59:42.641+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T09:58:37.639607+00:00 [queued]>
+[2026-06-25T09:59:42.642+0000] {taskinstance.py:1361} INFO - Starting attempt 2 of 2
+[2026-06-25T09:59:42.653+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-06-25 09:58:37.639607+00:00
+[2026-06-25T09:59:42.658+0000] {standard_task_runner.py:57} INFO - Started process 192 to run task
+[2026-06-25T09:59:42.661+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'manual__2026-06-25T09:58:37.639607+00:00', '--job-id', '29', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmphh5v7_39']
+[2026-06-25T09:59:42.664+0000] {standard_task_runner.py:85} INFO - Job 29: Subtask execution_pipeline_etl
+[2026-06-25T09:59:42.717+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl manual__2026-06-25T09:58:37.639607+00:00 [running]> on host bb52fcb713ed
+[2026-06-25T09:59:42.791+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-06-25T09:58:37.639607+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-25T09:58:37.639607+00:00'
+[2026-06-25T09:59:42.833+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-06-25T09:59:43.668+0000] {docker.py:406} INFO - 📥 Extraction de Cadastre pour Dakar Plateau...
+[2026-06-25T09:59:44.494+0000] {docker.py:406} INFO - 📥 Extraction de Domaines pour Dakar Plateau...
+[2026-06-25T09:59:44.745+0000] {docker.py:406} INFO - 📥 Extraction de Conservation pour Dakar Plateau...
+[2026-06-25T09:59:45.662+0000] {docker.py:406} INFO - 🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+⚡ Chargement des données uniques et nettoyées dans DuckDB...
+[2026-06-25T09:59:45.667+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 188, in <module>
+    extract_and_transform()
+  File "/app/main.py", line 138, in extract_and_transform
+[2026-06-25T09:59:45.667+0000] {docker.py:406} INFO - con = duckdb.connect(duckdb_path)
+_duckdb.IOException: IO Error: Could not set lock on file "/app/duckdb_store/analytics.duckdb": Conflicting lock is held in PID 0. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+[2026-06-25T09:59:46.058+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-06-25T09:59:46.062+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260625T095837, start_date=20260625T095942, end_date=20260625T095946
+[2026-06-25T09:59:46.077+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 29 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 192)
+[2026-06-25T09:59:46.091+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-25T09:59:46.109+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
