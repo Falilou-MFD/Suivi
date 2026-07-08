@@ -938,7 +938,6 @@ def filter_bar() -> rx.Component:
             ),
             rx.spacer(),
             rx.hstack(
-                # Simplification des rx.select en utilisant uniquement **select_style
                 rx.vstack(rx.text("BUREAU", **label_style), rx.select(["Tous", "Cadastre", "Conservation", "Domaines"], value=DashboardState.selected_service, on_change=DashboardState.set_service, **select_style), spacing="1", align_items="start"),
                 rx.vstack(rx.text("CSF", **label_style), rx.select(["Tous", "Dakar Plateau", "Ngor-Almadies", "Mbour"], value=DashboardState.selected_csf, on_change=DashboardState.set_csf, **select_style), spacing="1", align_items="start"),
                 rx.vstack(rx.text("TYPE", **label_style), rx.select(DashboardState.type_options, value=DashboardState.selected_type, on_change=DashboardState.set_type, **select_style), spacing="1", align_items="start"),
@@ -947,13 +946,14 @@ def filter_bar() -> rx.Component:
             ),
             width="100%",
             align_items="end",
-            max_width="1400px",
-            margin="0 auto",
+            # Les lignes max_width et margin ont été supprimées ici
         ),
         padding="14px 32px",
         bg=WHITE,
         border_bottom=f"1px solid {BORDER_HDR}",
+        width="100%", # Ajout d'une garantie que la boîte globale prend tout l'espace
     )
+
 
 def objectives_section() -> rx.Component:
     return rx.vstack(
@@ -976,7 +976,7 @@ def objectives_section() -> rx.Component:
         ),
         rx.heading("Objectifs de la période", size="4", color=TEXT_MAIN, font_weight="bold", margin_bottom="16px"),
         rx.grid(
-            rx.box(rx.vstack(rx.text("Objectif fixé", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.hstack(rx.text(DashboardState.kpi_objectif.to_string(), font_size="32px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("dossiers", font_size="14px", color=TEXT_MUTED, margin_top="8px"), spacing="2", align_items="end"), rx.text("CSF actuel : Tous", color=TEXT_MUTED, font_size="11px", margin_top="4px"), spacing="1", align_items="start"), padding="20px", bg=CREAM_CARD, border_radius="12px", border=f"1px solid #F5E6C8", width="100%", height="100%"),
+            rx.box(rx.vstack(rx.text("Objectif fixé", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.hstack(rx.text(DashboardState.kpi_objectif.to_string(), font_size="32px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("dossiers", font_size="14px", color=TEXT_MUTED, margin_top="8px"), spacing="2", align_items="end"), rx.text(" ", color=TEXT_MUTED, font_size="11px", margin_top="4px"), spacing="1", align_items="start"), padding="20px", bg=CREAM_CARD, border_radius="12px", border=f"1px solid #F5E6C8", width="100%", height="100%"),
             rx.box(rx.vstack(rx.hstack(rx.text("Taux d'indexation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("layers", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_indexation}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width="100%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.hstack(rx.text("Indexés vs objectif de la période", color=TEXT_MUTED, font_size="10px"), rx.spacer(), rx.text("×7,8", color=GOLD, font_size="10px", font_weight="bold"), width="100%", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
             rx.box(rx.vstack(rx.hstack(rx.text("Taux de numérisation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("scan", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_num}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width="60.9%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.text("Numérisés vs objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
             columns="3", spacing="4", width="100%",
