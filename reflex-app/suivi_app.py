@@ -1,6 +1,6 @@
 # suivi_app.py
 # Dashboard de Suivi DGID — Reflex
-# v2.8.7 — FIX : Graph height & axis labels scaling + no overflow
+# v2.8.12 — FIX : Contrast fixes enforced with inline styles (selects, button hover, input)
 
 import reflex as rx
 from datetime import datetime, timedelta
@@ -558,7 +558,7 @@ class DashboardState(rx.State):
         if not data_list:
             return '<svg width="100%" height="100%" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" text-anchor="middle" fill="#AAA" font-size="14" font-family="sans-serif">Aucune donnée</text></svg>'
 
-        svg_w, svg_h = 600, 200
+        svg_w, svg_h = 600, 240
         m_left, m_right = 50, 40
         m_top, m_bottom = 30, 80
 
@@ -628,7 +628,7 @@ class DashboardState(rx.State):
             return '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#AAA;font-family:sans-serif;">Aucune donnée</div>'
 
         total = sum(d["volume"] for d in vol_data)
-        cx, cy, r = 120, 120, 75
+        cx, cy, r = 140, 140, 88
         circumference = 2 * math.pi * r
         circles_html = ""
         offset = 0
@@ -636,7 +636,7 @@ class DashboardState(rx.State):
         for d in vol_data:
             dash = (d["volume"] / total) * circumference
             gap = circumference - dash
-            circles_html += f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{d["color"]}" stroke-width="28" stroke-dasharray="{dash:.2f} {gap:.2f}" stroke-dashoffset="{-offset:.2f}" transform="rotate(-90 {cx} {cy})" stroke-linecap="butt"/>'
+            circles_html += f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{d["color"]}" stroke-width="32" stroke-dasharray="{dash:.2f} {gap:.2f}" stroke-dashoffset="{-offset:.2f}" transform="rotate(-90 {cx} {cy})" stroke-linecap="butt"/>'
             offset += dash
 
         legend_items = ""
@@ -654,17 +654,17 @@ class DashboardState(rx.State):
             </div>'''
 
         return f'''
-        <div style="display:flex;align-items:center;width:100%;height:100%;padding:16px;box-sizing:border-box;gap:16px;">
-            <div style="position:relative;width:240px;height:240px;flex-shrink:0;">
-                <svg width="240" height="240" viewBox="0 0 240 240">
+        <div style="display:flex;align-items:center;width:100%;height:100%;padding:28px;box-sizing:border-box;gap:28px;">
+            <div style="position:relative;width:300px;height:300px;flex-shrink:0;">
+                <svg width="300" height="300" viewBox="0 0 280 280">
                     {circles_html}
                 </svg>
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-                    <div style="font-size:20px;font-weight:bold;color:#1E1E1E;font-family:sans-serif;">{total}</div>
+                    <div style="font-size:24px;font-weight:bold;color:#1E1E1E;font-family:sans-serif;">{total}</div>
                     <div style="font-size:10px;color:#8A8A8A;font-family:sans-serif;">Total</div>
                 </div>
             </div>
-            <div style="flex:1;min-width:120px;max-width:180px;">
+            <div style="flex:1;min-width:120px;max-width:220px;">
                 {legend_items}
             </div>
         </div>'''
@@ -901,17 +901,29 @@ def header() -> rx.Component:
             spacing="3", align_items="center",
         ),
         rx.spacer(),
-        rx.button(rx.hstack(rx.icon("download", size=14, color=BROWN), rx.text("Exporter en Excel", font_size="13px", color=BROWN, font_weight="500"), spacing="2", align_items="center"), bg=WHITE, color=BROWN, border=f"1px solid {BROWN}", border_radius="8px", padding="8px 18px", height="40px", cursor="pointer", _hover={"bg": BROWN, "color": WHITE, "transition": "all 0.2s ease"}, on_click=DashboardState.export_excel),
+        rx.button(
+            rx.hstack(
+                rx.icon("download", size=14), # Suppression du style="inherit"
+                rx.text("Exporter en Excel", font_size="13px", font_weight="500"), # Suppression du style="inherit"
+                spacing="2", align_items="center"
+            ),
+            bg=WHITE, color=BROWN, border=f"1px solid {BROWN}", border_radius="8px",
+            padding="8px 18px", height="40px", cursor="pointer",
+            # Le _hover appliquera désormais correctement le texte blanc
+            _hover={"bg": BROWN, "color": WHITE, "border_color": BROWN, "transition": "all 0.2s ease"},
+            on_click=DashboardState.export_excel
+        ),
         width="100%", padding="16px 32px", bg=WHITE, border_bottom=f"1px solid {BORDER_HDR}", align_items="center",
     )
-
 
 def filter_bar() -> rx.Component:
     label_style = {"color": TEXT_MUTED, "font_size": "10px", "font_weight": "600", "letter_spacing": "0.5px", "text_transform": "uppercase"}
     input_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 12px", "font_size": "13px", "color": TEXT_MAIN, "width": "140px", "height": "38px"}
     btn_ghost = {"variant": "ghost", "size": "2", "color": BROWN, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"bg": BROWN, "color": WHITE, "transition": "all 0.2s ease"}}
     btn_muted = {"variant": "ghost", "size": "2", "color": TEXT_MUTED, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"color": BROWN, "border_color": BROWN, "transition": "all 0.2s ease"}}
-    select_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "font_size": "13px", "color": TEXT_MAIN, "width": "130px", "height": "38px", "bg": WHITE}
+    
+    # Ajout de la couleur noire (TEXT_MAIN) directement dans le style global des selects
+    select_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "font_size": "13px", "width": "130px", "height": "38px", "bg": WHITE, "color": TEXT_MAIN}
 
     return rx.box(
         rx.hstack(
@@ -926,6 +938,7 @@ def filter_bar() -> rx.Component:
             ),
             rx.spacer(),
             rx.hstack(
+                # Simplification des rx.select en utilisant uniquement **select_style
                 rx.vstack(rx.text("BUREAU", **label_style), rx.select(["Tous", "Cadastre", "Conservation", "Domaines"], value=DashboardState.selected_service, on_change=DashboardState.set_service, **select_style), spacing="1", align_items="start"),
                 rx.vstack(rx.text("CSF", **label_style), rx.select(["Tous", "Dakar Plateau", "Ngor-Almadies", "Mbour"], value=DashboardState.selected_csf, on_change=DashboardState.set_csf, **select_style), spacing="1", align_items="start"),
                 rx.vstack(rx.text("TYPE", **label_style), rx.select(DashboardState.type_options, value=DashboardState.selected_type, on_change=DashboardState.set_type, **select_style), spacing="1", align_items="start"),
@@ -942,13 +955,23 @@ def filter_bar() -> rx.Component:
         border_bottom=f"1px solid {BORDER_HDR}",
     )
 
-
 def objectives_section() -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.hstack(rx.icon("target", size=14, color=BROWN), rx.text("PILOTAGE SUPERVISEUR", color=BROWN, font_size="10px", font_weight="700", letter_spacing="1px"), spacing="2", align_items="center"),
             rx.spacer(),
-            rx.vstack(rx.text("DOSSIERS ATTENDUS", color=TEXT_MUTED, font_size="10px", font_weight="600", letter_spacing="0.5px"), rx.input(value=DashboardState.objectif_attendu.to_string(), on_change=DashboardState.set_objectif_attendu, width="100px", height="32px", font_size="14px", font_weight="600", text_align="center", border_radius="8px", border=f"1px solid {BORDER_CARD}"), spacing="1", align_items="end"),
+            rx.vstack(
+                rx.text("DOSSIERS ATTENDUS", color=TEXT_MUTED, font_size="10px", font_weight="600", letter_spacing="0.5px"), 
+                # Correction de l'input : suppression du dict style=...
+                rx.input(
+                    value=DashboardState.objectif_attendu.to_string(), 
+                    on_change=DashboardState.set_objectif_attendu, 
+                    width="100px", height="32px", 
+                    font_size="14px", font_weight="600", text_align="center", 
+                    color=TEXT_MAIN, bg=WHITE, border_radius="8px", border=f"1px solid {BORDER_CARD}"
+                ), 
+                spacing="1", align_items="end"
+            ),
             width="100%", align_items="start", margin_bottom="8px",
         ),
         rx.heading("Objectifs de la période", size="4", color=TEXT_MAIN, font_weight="bold", margin_bottom="16px"),
@@ -1022,7 +1045,7 @@ def volume_donut() -> rx.Component:
     return rx.box(rx.vstack(
         rx.hstack(rx.icon("pie-chart", size=16, color=GOLD), rx.text("Volume par bureau", color=TEXT_MAIN, font_size="14px", font_weight="600"), spacing="2", align_items="center", padding="16px 20px 0 20px"),
         rx.html(DashboardState.donut_html), width="100%", spacing="0",
-    ), bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="300px")
+    ), bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="380px")
 
 
 def productivity_table() -> rx.Component:
