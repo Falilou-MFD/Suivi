@@ -1,0 +1,41 @@
+[2026-07-07T18:50:51.572+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-07T17:00:00+00:00 [queued]>
+[2026-07-07T18:50:51.654+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-07T17:00:00+00:00 [queued]>
+[2026-07-07T18:50:51.663+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-07-07T18:50:51.799+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-07-07 17:00:00+00:00
+[2026-07-07T18:50:51.852+0000] {standard_task_runner.py:57} INFO - Started process 604 to run task
+[2026-07-07T18:50:51.860+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-07-07T17:00:00+00:00', '--job-id', '20', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmprmyqmtia']
+[2026-07-07T18:50:51.877+0000] {standard_task_runner.py:85} INFO - Job 20: Subtask execution_pipeline_etl
+[2026-07-07T18:50:52.261+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-07T17:00:00+00:00 [running]> on host f8359eab1005
+[2026-07-07T18:50:53.299+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-07-07T17:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-07-07T17:00:00+00:00'
+[2026-07-07T18:50:53.845+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-07-07T22:45:16.768+0000] {local_task_job_runner.py:205} ERROR - Heartbeat time limit exceeded!
+[2026-07-07T22:45:19.022+0000] {process_utils.py:131} INFO - Sending 15 to group 604. PIDs of all processes in the group: [604]
+[2026-07-07T22:45:19.078+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 604
+[2026-07-07T22:45:19.100+0000] {taskinstance.py:1632} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-07-07T22:45:19.126+0000] {docker.py:498} INFO - Stopping docker container
+[2026-07-07T22:45:26.332+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 403, in _run_image_with_mounts
+    for log_chunk in logstream:
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/types/daemon.py", line 29, in __next__
+    return next(self._stream)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 422, in <genexpr>
+    gen = (data for (_, data) in gen)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/socket.py", line 112, in frames_iter_no_tty
+    (stream, n) = next_frame_header(socket)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/socket.py", line 84, in next_frame_header
+    data = read_exactly(socket, 8)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/socket.py", line 69, in read_exactly
+    next_data = read(socket, n - len(data))
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/socket.py", line 40, in read
+    poll.poll()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 1634, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-07-07T22:45:26.372+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260707T170000, start_date=20260707T185051, end_date=20260707T224526
+[2026-07-07T22:45:26.481+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 20 for task execution_pipeline_etl (Task received SIGTERM signal; 604)
+[2026-07-07T22:45:26.549+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=604, status='terminated', exitcode=1, started='18:50:51') (604) terminated with exit code 1
