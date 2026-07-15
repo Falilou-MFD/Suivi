@@ -1,6 +1,6 @@
 # suivi_app.py
 # Dashboard de Suivi DGID — Reflex
-# v2.8.12 — FIX : Contrast fixes enforced with inline styles (selects, button hover, input)
+# v2.8.14 — FIX : Proportions objectif, tailles harmonisées
 
 import reflex as rx
 from datetime import datetime, timedelta
@@ -152,7 +152,7 @@ def _write_aggregation_sheet(ws, df_sub, title):
 
     ws.merge_cells("A2:G2")
     nb_lignes = len(df_sub)
-    ws["A2"] = f"{nb_lignes} enregistrements bruts | Export DGID v2.8.7"
+    ws["A2"] = f"{nb_lignes} enregistrements bruts"
     ws["A2"].font = FONT_SUBTITLE
     ws["A2"].alignment = ALIGN_CENTER
     ws.row_dimensions[2].height = 18
@@ -282,13 +282,13 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
 
         ws_resume.merge_cells("A1:G1")
         ws_resume["A1"] = (
-            "RAPPORT DE SUIVI GLOBAL - DIRECTION GENERALE DES IMPOTS ET DES DOMAINES (DGID)"
+            "RAPPORT DE SUIVI GLOBAL - Archivage Numérisation"
         )
         ws_resume["A1"].font = FONT_TITLE
         ws_resume["A1"].alignment = ALIGN_CENTER
         ws_resume.row_dimensions[1].height = 30
 
-        filter_text = f"Généré le : {datetime.now().strftime('%d/%m/%Y %H:%M')}  |  "
+        filter_text = f"Produit le : {datetime.now().strftime('%d/%m/%Y %H:%M')}  |  "
         filter_text += f"CSF : {filters.get('csf', 'Tous')}  |  "
         filter_text += f"Bureaux : {filters.get('service', 'Tous')}  |  "
         filter_text += f"Période : {filters.get('start_date', '—')} au {filters.get('end_date', '—')}"
@@ -327,14 +327,14 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
 
         row = 8
         ws_resume.merge_cells(f"A{row}:G{row}")
-        ws_resume.cell(row=row, column=1).value = "SYNTHÈSE DE PRODUCTION PAR BUREAU"
+        ws_resume.cell(row=row, column=1).value = "SYNTHÈSE PAR BUREAU"
         ws_resume.cell(row=row, column=1).font = FONT_SECTION
         ws_resume.cell(row=row, column=1).alignment = ALIGN_LEFT
         row += 1
 
         headers_bureau = [
             "Bureau", "Dossiers Traités", "Pièces Indexées",
-            "En Attente Num.", "Objectif Période", "% Réalisation", "Taux Restitution",
+            "En Attente Num.", "% Réalisation", "Taux Restitution",
         ]
         for j, h in enumerate(headers_bureau, 1):
             ws_resume.cell(row=row, column=j, value=h)
@@ -356,7 +356,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
 
             vals = [
                 bureau, nb_dossiers, int(nb_pieces), attente_b,
-                objectif, f"{pct_real} %", f"{taux_rest_b} %",
+            f"{pct_real} %", f"{taux_rest_b} %",
             ]
             for j, v in enumerate(vals, 1):
                 cell = ws_resume.cell(row=row, column=j, value=v)
@@ -367,7 +367,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
 
         vals_total = [
             "TOTAL", total_dossiers, int(pieces_indexees), attente_num,
-            objectif, f"{round((total_dossiers / max(objectif, 1)) * 100, 1)} %",
+            f"{round((total_dossiers / max(objectif, 1)) * 100, 1)} %",
             f"{taux_restitution} %",
         ]
         for j, v in enumerate(vals_total, 1):
@@ -380,14 +380,14 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         row += 3
         ws_resume.merge_cells(f"A{row}:F{row}")
         ws_resume.cell(row=row, column=1).value = (
-            "VENTILATION DE LA PRODUCTION PAR CENTRE DES SERVICES FISCAUX (CSF)"
+            "PRODUCTION PAR CENTRE DES SERVICES FISCAUX (CSF)"
         )
         ws_resume.cell(row=row, column=1).font = FONT_SECTION
         ws_resume.cell(row=row, column=1).alignment = ALIGN_LEFT
         row += 1
 
         headers_csf = [
-            "CSF Géographique", "Bureau", "Dossiers Traités",
+            "CSF", "Bureau", "Dossiers Traités",
             "Pièces Indexées", "Taux Restitution", "Dossiers / Jour",
         ]
         for j, h in enumerate(headers_csf, 1):
@@ -428,7 +428,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
             df_csf = df[df["csf_geographique"] == csf]
             sheet_name = csf[:31]
             ws = workbook.create_sheet(sheet_name)
-            _write_aggregation_sheet(ws, df_csf, f"PRODUCTION - CSF {csf.upper()}")
+            _write_aggregation_sheet(ws, df_csf, f"PRODUCTION - {csf.upper()}")
 
         bureau_list = sorted(df["service_origine"].dropna().unique())
         if len(csf_list) > 1:
@@ -436,7 +436,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 df_bureau = df[df["service_origine"] == bureau]
                 sheet_name = f"All {bureau}"[:31]
                 ws = workbook.create_sheet(sheet_name)
-                _write_aggregation_sheet(ws, df_bureau, f"PRODUCTION - ALL {bureau.upper()}")
+                _write_aggregation_sheet(ws, df_bureau, f"PRODUCTION - all {bureau.upper()}")
 
         for csf in csf_list:
             for bureau in bureau_list:
@@ -461,7 +461,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         ws_detail.row_dimensions[1].height = 28
 
         ws_detail.merge_cells("A2:J2")
-        ws_detail["A2"] = f"500 derniers enregistrements | Export DGID v2.8.7"
+        ws_detail["A2"] = f"500 derniers enregistrements | Export KAGU"
         ws_detail["A2"].font = FONT_SUBTITLE
         ws_detail["A2"].alignment = ALIGN_CENTER
 
@@ -542,6 +542,9 @@ class DashboardState(rx.State):
     kpi_dossiers_jour: float = 0.0
     kpi_top_archiviste: str = "—"
     kpi_top_total: int = 0
+    kpi_bar_indexation: float = 0.0
+    kpi_bar_num: float = 0.0
+    kpi_ratio_indexation: float = 0.0
 
     flux_data: list[dict] = []
     flux_svg_html: str = ""
@@ -725,6 +728,10 @@ class DashboardState(rx.State):
             row = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE is_for_scan = TRUE AND {where_sql}", params).fetchone()
             numerises = _safe_int(row[0])
             self.kpi_taux_num = round((numerises / max(self.objectif_attendu, 1)) * 100, 1)
+            # Barres clampées à 100% et ratio de couverture
+            self.kpi_bar_indexation = min(self.kpi_taux_indexation, 100.0)
+            self.kpi_bar_num = min(self.kpi_taux_num, 100.0)
+            self.kpi_ratio_indexation = round(self.kpi_taux_indexation / 100.0, 1)
             row = con.execute(f"SELECT operateur, COUNT(DISTINCT numero_dossier) as total FROM fact_suivi_global WHERE {where_sql} GROUP BY operateur ORDER BY total DESC LIMIT 1", params).fetchone()
             if row and row[0]:
                 self.kpi_top_archiviste = str(row[0])
@@ -976,9 +983,9 @@ def objectives_section() -> rx.Component:
         ),
         rx.heading("Objectifs de la période", size="4", color=TEXT_MAIN, font_weight="bold", margin_bottom="16px"),
         rx.grid(
-            rx.box(rx.vstack(rx.text("Objectif fixé", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.hstack(rx.text(DashboardState.kpi_objectif.to_string(), font_size="32px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("dossiers", font_size="14px", color=TEXT_MUTED, margin_top="8px"), spacing="2", align_items="end"), rx.text(" ", color=TEXT_MUTED, font_size="11px", margin_top="4px"), spacing="1", align_items="start"), padding="20px", bg=CREAM_CARD, border_radius="12px", border=f"1px solid #F5E6C8", width="100%", height="100%"),
-            rx.box(rx.vstack(rx.hstack(rx.text("Taux d'indexation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("layers", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_indexation}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width="100%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.hstack(rx.text("Indexés vs objectif de la période", color=TEXT_MUTED, font_size="10px"), rx.spacer(), rx.text("×7,8", color=GOLD, font_size="10px", font_weight="bold"), width="100%", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
-            rx.box(rx.vstack(rx.hstack(rx.text("Taux de numérisation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("scan", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_num}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width="60.9%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.text("Numérisés vs objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
+            rx.box(rx.vstack(rx.text("Objectif fixé", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.hstack(rx.text(DashboardState.kpi_objectif.to_string(), font_size="36px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("dossiers", font_size="14px", color=TEXT_MUTED, margin_top="10px"), spacing="2", align_items="end", margin_top="12px"), rx.text("Objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="8px"), spacing="1", align_items="center", justify_content="center", height="100%"), padding="24px", bg=CREAM_CARD, border_radius="12px", border=f"1px solid #F5E6C8", width="100%", height="100%"),
+            rx.box(rx.vstack(rx.hstack(rx.text("Taux d'indexation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("layers", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_indexation}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_indexation}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.hstack(rx.text("Indexés vs objectif de la période", color=TEXT_MUTED, font_size="10px"), rx.spacer(), rx.text(f"×{DashboardState.kpi_ratio_indexation}", color=GOLD, font_size="10px", font_weight="bold"), width="100%", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
+            rx.box(rx.vstack(rx.hstack(rx.text("Taux de numérisation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("scan", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_num}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_num}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.text("Numérisés vs objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
             columns="3", spacing="4", width="100%",
         ),
         width="100%", spacing="0",

@@ -1,0 +1,39 @@
+[2026-07-14T11:08:01.960+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-14T10:00:00+00:00 [queued]>
+[2026-07-14T11:08:01.975+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-14T10:00:00+00:00 [queued]>
+[2026-07-14T11:08:01.975+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-07-14T11:08:02.002+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-07-14 10:00:00+00:00
+[2026-07-14T11:08:02.011+0000] {standard_task_runner.py:57} INFO - Started process 17896 to run task
+[2026-07-14T11:08:02.016+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-07-14T10:00:00+00:00', '--job-id', '146', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpbgo64hvn']
+[2026-07-14T11:08:02.020+0000] {standard_task_runner.py:85} INFO - Job 146: Subtask execution_pipeline_etl
+[2026-07-14T11:08:02.079+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-14T10:00:00+00:00 [running]> on host 9c34a7a7e32c
+[2026-07-14T11:08:02.186+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-07-14T10:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-07-14T10:00:00+00:00'
+[2026-07-14T11:08:02.288+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-07-14T11:08:05.086+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Dakar Plateau (dkp)
+  📥 Extraction de Cadastre depuis [cadastre_dkp_db]...
+[2026-07-14T11:08:07.610+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_dkp_db]...
+[2026-07-14T11:08:08.270+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_dkp_db]...
+[2026-07-14T11:08:10.840+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Ngor-Almadies (nga)
+  📥 Extraction de Cadastre depuis [cadastre_nga_db]...
+[2026-07-14T11:08:11.873+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_nga_db]...
+[2026-07-14T11:08:12.530+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_nga_db]...
+[2026-07-14T11:08:13.055+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Mbour (mb)
+  📥 Extraction de Cadastre depuis [cadastre_mb_db]...
+[2026-07-14T11:08:13.462+0000] {docker.py:406} INFO - 📥 Extraction de Domaines depuis [domaines_mb_db]...
+[2026-07-14T11:08:13.512+0000] {docker.py:406} INFO - 📥 Extraction de Conservation depuis [conservation_mb_db]...
+[2026-07-14T11:08:13.767+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-14T11:08:13.771+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-14T11:08:13.771+0000] {docker.py:406} INFO - /app/main.py:116: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-07-14T11:08:13.806+0000] {docker.py:406} INFO - 🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+[2026-07-14T11:08:14.132+0000] {docker.py:406} INFO - 🔓 Permissions ajustées (666) sur /app/duckdb_store/analytics.duckdb pour Reflex.
+✅ Data Warehouse DuckDB mis à jour avec succès !
+📊 Total des dossiers consolidés : 26249
+[2026-07-14T11:08:14.136+0000] {docker.py:406} INFO - csf_geographique  count_star()
+0    Dakar Plateau         10959
+1    Ngor-Almadies         11206
+2            Mbour          4084
+[2026-07-14T11:08:14.620+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260714T100000, start_date=20260714T110801, end_date=20260714T110814
+[2026-07-14T11:08:14.684+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2026-07-14T11:08:14.711+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
