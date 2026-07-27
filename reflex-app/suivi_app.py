@@ -1,6 +1,6 @@
 # suivi_app.py
 # Dashboard de Suivi DGID — Reflex
-# v2.8.14 — FIX : Proportions objectif, tailles harmonisées
+# v3.0.0 — FIX : Validation dates, logique Entrée/Sortie via record_type+output_id, Complexité onomastique
 
 import reflex as rx
 from datetime import datetime, timedelta
@@ -42,6 +42,12 @@ SHADOW = "0 2px 12px rgba(0,0,0,0.04)"
 DUCKDB_PATH = os.getenv("DUCKDB_PATH", "/app/duckdb_store/analytics.duckdb")
 
 # =============================================================================
+# CONSTANTES MÉTIER — UUID des types d'enregistrement
+# =============================================================================
+UUID_ENTREE = "1647d4a7-785a-4419-a248-d62259683da5"
+UUID_SORTIE = "8fba2098-1356-4f34-9d29-68e5446f49a5"
+
+# =============================================================================
 # CONSTANTES EXCEL
 # =============================================================================
 GOLD_HEX = "D4AF37"
@@ -64,6 +70,8 @@ FILL_HEADER = PatternFill(start_color=GOLD_HEX, end_color=GOLD_HEX, fill_type="s
 FILL_CREAM = PatternFill(start_color=CREAM_HEX, end_color=CREAM_HEX, fill_type="solid")
 FILL_WHITE = PatternFill(start_color=WHITE_HEX, end_color=WHITE_HEX, fill_type="solid")
 FILL_LIGHT_GOLD = PatternFill(start_color="F5E6C8", end_color="F5E6C8", fill_type="solid")
+FILL_GREEN_LIGHT = PatternFill(start_color="E6F4EA", end_color="E6F4EA", fill_type="solid")
+FILL_RED_LIGHT = PatternFill(start_color="FCE8E6", end_color="FCE8E6", fill_type="solid")
 
 BORDER_THIN = Border(
     left=Side(style="thin", color="E8E8E8"),
@@ -80,8 +88,10 @@ ALIGN_LEFT = Alignment(horizontal="left", vertical="center", wrap_text=True)
 # HELPERS
 # =============================================================================
 def _build_where(filters: dict) -> tuple[str, list]:
+    """Construit la clause WHERE."""
     clauses = []
     params = []
+    
     if filters.get("start_date") and filters.get("end_date"):
         clauses.append("registration_date::DATE BETWEEN ?::DATE AND ?::DATE")
         params.extend([filters["start_date"], filters["end_date"]])
@@ -92,7 +102,7 @@ def _build_where(filters: dict) -> tuple[str, list]:
         clauses.append("csf_geographique = ?")
         params.append(filters["csf"])
     if filters.get("type") and filters["type"] != "Tous":
-        clauses.append("motif_enregistrement = ?")
+        clauses.append("vrai_type = ?")
         params.append(filters["type"])
     where_sql = " AND ".join(clauses) if clauses else "1=1"
     return where_sql, params
@@ -114,6 +124,23 @@ def _safe_int(val, default=0):
         return int(val)
     except (TypeError, ValueError):
         return default
+
+
+def _validate_date_range(start_date: str, end_date: str) -> tuple[bool, str]:
+    """Valide que la plage de dates est cohérente."""
+    if not start_date or not end_date:
+        return True, ""
+    try:
+        sd = datetime.strptime(start_date, "%Y-%m-%d")
+        ed = datetime.strptime(end_date, "%Y-%m-%d")
+        if ed < sd:
+            return False, "La date de fin doit être postérieure à la date de début."
+        # Limite max : pas de date future
+        if ed > datetime.now() + timedelta(days=1):
+            return False, "La date de fin ne peut pas être dans le futur."
+        return True, ""
+    except ValueError:
+        return False, "Format de date invalide."
 
 
 # =============================================================================
@@ -143,20 +170,21 @@ def _auto_adjust_columns(ws):
 
 
 def _write_aggregation_sheet(ws, df_sub, title):
-    """Écrit une feuille d'agrégation par opérateur avec style DGID."""
-    ws.merge_cells("A1:G1")
+    """Écrit une feuille d'agrégation par opérateur avec style DGID + complexité."""
+    ws.merge_cells("A1:H1")
     ws["A1"] = title
     ws["A1"].font = FONT_TITLE
     ws["A1"].alignment = ALIGN_CENTER
     ws.row_dimensions[1].height = 28
 
-    ws.merge_cells("A2:G2")
+    ws.merge_cells("A2:H2")
     nb_lignes = len(df_sub)
     ws["A2"] = f"{nb_lignes} enregistrements bruts"
     ws["A2"].font = FONT_SUBTITLE
     ws["A2"].alignment = ALIGN_CENTER
     ws.row_dimensions[2].height = 18
 
+    # v3.0 : Ajout colonne Complexité Moyenne
     agg_headers = [
         "Opérateur",
         "Dossiers Traités",
@@ -165,6 +193,7 @@ def _write_aggregation_sheet(ws, df_sub, title):
         "Taux Restitution",
         "Durée Moyenne Sortie (h)",
         "Dossiers / Jour",
+        "Complexité Moy.",
     ]
     for j, h in enumerate(agg_headers, 1):
         ws.cell(row=4, column=j, value=h)
@@ -177,7 +206,9 @@ def _write_aggregation_sheet(ws, df_sub, title):
             op_name = "Operateur Inconnu"
 
         nb_dossiers = df_op["numero_dossier"].nunique()
-        nb_pieces = df_op[df_op["date_indexation"].notna()]["count_item"].sum()
+        # v3.1 : count_item par dossier, pas par mouvement -> dédup avant sum
+        df_idx_op = df_op[df_op["date_indexation"].notna()].drop_duplicates(subset=["numero_dossier"])
+        nb_pieces = df_idx_op["count_item"].sum()
         if pd.isna(nb_pieces):
             nb_pieces = 0
 
@@ -188,22 +219,34 @@ def _write_aggregation_sheet(ws, df_sub, title):
         rest = df_op[df_op["date_retour"].notna()]["numero_dossier"].nunique()
         taux_rest = round((rest / nb_dossiers * 100), 1) if nb_dossiers > 0 else 0
 
-        df_duree = df_op[
-            (df_op["date_retour"].notna()) & (df_op["date_indexation"].notna())
-        ].copy()
         duree = 0.0
-        if not df_duree.empty:
-            df_duree["duree_h"] = (
-                df_duree["date_retour"] - df_duree["date_indexation"]
-            ).dt.total_seconds() / 3600
-            df_duree = df_duree[df_duree["duree_h"] >= 0]
+        if "duree_numerisation_h" in df_op.columns:
+            vals = df_op["duree_numerisation_h"].dropna()
+            if not vals.empty:
+                duree = round(vals.mean(), 1)
+        else:
+            df_duree = df_op[
+                (df_op["date_retour"].notna()) & (df_op["date_indexation"].notna())
+            ].copy()
             if not df_duree.empty:
-                duree = round(df_duree["duree_h"].mean(), 1)
+                df_duree["duree_h"] = (
+                    df_duree["date_retour"] - df_duree["date_indexation"]
+                ).dt.total_seconds() / 3600
+                df_duree = df_duree[df_duree["duree_h"] >= 0]
+                if not df_duree.empty:
+                    duree = round(df_duree["duree_h"].mean(), 1)
 
         nb_j = df_op[df_op["registration_date"].notna()]["registration_date"].dt.date.nunique()
         dpj = round(nb_dossiers / max(nb_j, 1), 1)
 
-        vals = [op_name, nb_dossiers, int(nb_pieces), attente, f"{taux_rest}%", duree, dpj]
+        # v3.0 : Complexité moyenne
+        complexite_moy = 0.0
+        if "nb_proprietaires_uniques" in df_op.columns:
+            comp_vals = df_op["nb_proprietaires_uniques"].dropna()
+            if not comp_vals.empty:
+                complexite_moy = round(comp_vals.mean(), 1)
+
+        vals = [op_name, nb_dossiers, int(nb_pieces), attente, f"{taux_rest}%", duree, dpj, complexite_moy]
         for j, v in enumerate(vals, 1):
             cell = ws.cell(row=row, column=j, value=v)
             cell.font = FONT_NORMAL
@@ -238,7 +281,8 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 df[col] = pd.to_datetime(df[col], errors="coerce")
 
         total_dossiers = df["numero_dossier"].nunique()
-        pieces_indexees = df[df["date_indexation"].notna()]["count_item"].sum()
+        # v3.1 : count_item par dossier, pas par mouvement -> dédup avant sum
+        pieces_indexees = df[df["date_indexation"].notna()].drop_duplicates(subset=["numero_dossier"])["count_item"].sum()
         if pd.isna(pieces_indexees):
             pieces_indexees = 0
 
@@ -249,21 +293,33 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
             (df["is_for_scan"] == True) & (df["date_indexation"].isna())
         ]["numero_dossier"].nunique()
 
-        df_duree = df[
-            (df["date_retour"].notna()) & (df["date_indexation"].notna())
-        ].copy()
         duree_moyenne = 0.0
-        if not df_duree.empty:
-            df_duree["duree_h"] = (
-                df_duree["date_retour"] - df_duree["date_indexation"]
-            ).dt.total_seconds() / 3600
-            df_duree = df_duree[df_duree["duree_h"] >= 0]
+        if "duree_numerisation_h" in df.columns:
+            vals = df["duree_numerisation_h"].dropna()
+            if not vals.empty:
+                duree_moyenne = round(vals.mean(), 1)
+        else:
+            df_duree = df[
+                (df["date_retour"].notna()) & (df["date_indexation"].notna())
+            ].copy()
             if not df_duree.empty:
-                duree_moyenne = round(df_duree["duree_h"].mean(), 1)
+                df_duree["duree_h"] = (
+                    df_duree["date_retour"] - df_duree["date_indexation"]
+                ).dt.total_seconds() / 3600
+                df_duree = df_duree[df_duree["duree_h"] >= 0]
+                if not df_duree.empty:
+                    duree_moyenne = round(df_duree["duree_h"].mean(), 1)
 
         df_jours = df[df["registration_date"].notna()].copy()
         nb_jours = df_jours["registration_date"].dt.date.nunique()
         dossiers_jour = round(total_dossiers / max(nb_jours, 1), 1)
+
+        # v3.0 : Complexité moyenne globale
+        complexite_moy_globale = 0.0
+        if "nb_proprietaires_uniques" in df.columns:
+            comp_vals = df["nb_proprietaires_uniques"].dropna()
+            if not comp_vals.empty:
+                complexite_moy_globale = round(comp_vals.mean(), 1)
 
         top_serie = (
             df.groupby("operateur")["numero_dossier"]
@@ -280,7 +336,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
 
         ws_resume = workbook.create_sheet("Résumé Global", 0)
 
-        ws_resume.merge_cells("A1:G1")
+        ws_resume.merge_cells("A1:H1")
         ws_resume["A1"] = (
             "RAPPORT DE SUIVI GLOBAL - Archivage Numérisation"
         )
@@ -292,12 +348,13 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         filter_text += f"CSF : {filters.get('csf', 'Tous')}  |  "
         filter_text += f"Bureaux : {filters.get('service', 'Tous')}  |  "
         filter_text += f"Période : {filters.get('start_date', '—')} au {filters.get('end_date', '—')}"
-        ws_resume.merge_cells("A2:G2")
+        ws_resume.merge_cells("A2:H2")
         ws_resume["A2"] = filter_text
         ws_resume["A2"].font = FONT_SUBTITLE
         ws_resume["A2"].alignment = ALIGN_CENTER
         ws_resume.row_dimensions[2].height = 20
 
+        # v3.0 : 7 KPIs + Complexité
         kpi_data = [
             ("TOTAL DOSSIERS", str(total_dossiers)),
             ("PIÈCES INDEXÉES", str(int(pieces_indexees))),
@@ -305,6 +362,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
             ("ATTENTE NUMÉRISATION", str(attente_num)),
             ("DURÉE MOYENNE SORTIE", f"{duree_moyenne} h"),
             ("TOP AGENT", f"{top_agent_name} ({top_agent_count})"),
+            ("COMPLEXITÉ MOY.", f"{complexite_moy_globale} prop./dossier"),
         ]
 
         for i, (label, value) in enumerate(kpi_data):
@@ -326,15 +384,17 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         ws_resume.row_dimensions[5].height = 32
 
         row = 8
-        ws_resume.merge_cells(f"A{row}:G{row}")
+        ws_resume.merge_cells(f"A{row}:H{row}")
         ws_resume.cell(row=row, column=1).value = "SYNTHÈSE PAR BUREAU"
         ws_resume.cell(row=row, column=1).font = FONT_SECTION
         ws_resume.cell(row=row, column=1).alignment = ALIGN_LEFT
         row += 1
 
+        # v3.0 : Ajout colonne Complexité Moyenne
         headers_bureau = [
             "Bureau", "Dossiers Traités", "Pièces Indexées",
             "En Attente Num.", "% Réalisation", "Taux Restitution",
+            "Complexité Moy.",
         ]
         for j, h in enumerate(headers_bureau, 1):
             ws_resume.cell(row=row, column=j, value=h)
@@ -344,7 +404,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         for bureau in sorted(df["service_origine"].dropna().unique()):
             df_b = df[df["service_origine"] == bureau]
             nb_dossiers = df_b["numero_dossier"].nunique()
-            nb_pieces = df_b[df_b["date_indexation"].notna()]["count_item"].sum()
+            nb_pieces = df_b[df_b["date_indexation"].notna()].drop_duplicates(subset=["numero_dossier"])["count_item"].sum()
             if pd.isna(nb_pieces):
                 nb_pieces = 0
             attente_b = df_b[
@@ -354,9 +414,16 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
             taux_rest_b = round((rest_b / nb_dossiers * 100), 1) if nb_dossiers > 0 else 0
             pct_real = round((nb_dossiers / max(objectif, 1)) * 100, 1)
 
+            # v3.0 : Complexité par bureau
+            comp_b = 0.0
+            if "nb_proprietaires_uniques" in df_b.columns:
+                comp_vals = df_b["nb_proprietaires_uniques"].dropna()
+                if not comp_vals.empty:
+                    comp_b = round(comp_vals.mean(), 1)
+
             vals = [
                 bureau, nb_dossiers, int(nb_pieces), attente_b,
-            f"{pct_real} %", f"{taux_rest_b} %",
+                f"{pct_real} %", f"{taux_rest_b} %", comp_b,
             ]
             for j, v in enumerate(vals, 1):
                 cell = ws_resume.cell(row=row, column=j, value=v)
@@ -368,7 +435,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         vals_total = [
             "TOTAL", total_dossiers, int(pieces_indexees), attente_num,
             f"{round((total_dossiers / max(objectif, 1)) * 100, 1)} %",
-            f"{taux_restitution} %",
+            f"{taux_restitution} %", complexite_moy_globale,
         ]
         for j, v in enumerate(vals_total, 1):
             cell = ws_resume.cell(row=row, column=j, value=v)
@@ -378,7 +445,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
             cell.fill = FILL_LIGHT_GOLD
 
         row += 3
-        ws_resume.merge_cells(f"A{row}:F{row}")
+        ws_resume.merge_cells(f"A{row}:H{row}")
         ws_resume.cell(row=row, column=1).value = (
             "PRODUCTION PAR CENTRE DES SERVICES FISCAUX (CSF)"
         )
@@ -386,9 +453,10 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         ws_resume.cell(row=row, column=1).alignment = ALIGN_LEFT
         row += 1
 
+        # v3.0 : Ajout Complexité
         headers_csf = [
             "CSF", "Bureau", "Dossiers Traités",
-            "Pièces Indexées", "Taux Restitution", "Dossiers / Jour",
+            "Pièces Indexées", "Taux Restitution", "Dossiers / Jour", "Complexité Moy.",
         ]
         for j, h in enumerate(headers_csf, 1):
             ws_resume.cell(row=row, column=j, value=h)
@@ -403,7 +471,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                     (df["csf_geographique"] == csf) & (df["service_origine"] == bureau)
                 ]
                 nb_d = df_cb["numero_dossier"].nunique()
-                nb_p = df_cb[df_cb["date_indexation"].notna()]["count_item"].sum()
+                nb_p = df_cb[df_cb["date_indexation"].notna()].drop_duplicates(subset=["numero_dossier"])["count_item"].sum()
                 if pd.isna(nb_p):
                     nb_p = 0
                 rest = df_cb[df_cb["date_retour"].notna()]["numero_dossier"].nunique()
@@ -413,7 +481,14 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 ].dt.date.nunique()
                 dpj = round(nb_d / max(nb_j, 1), 1)
 
-                vals = [csf, bureau, nb_d, int(nb_p), f"{taux_r} %", dpj]
+                # v3.0 : Complexité par combo CSF+Bureau
+                comp_cb = 0.0
+                if "nb_proprietaires_uniques" in df_cb.columns:
+                    comp_vals = df_cb["nb_proprietaires_uniques"].dropna()
+                    if not comp_vals.empty:
+                        comp_cb = round(comp_vals.mean(), 1)
+
+                vals = [csf, bureau, nb_d, int(nb_p), f"{taux_r} %", dpj, comp_cb]
                 for j, v in enumerate(vals, 1):
                     cell = ws_resume.cell(row=row, column=j, value=v)
                     cell.font = FONT_NORMAL
@@ -454,21 +529,22 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
         ws_detail = workbook.create_sheet("Détail Brut")
         df_detail = df.sort_values("registration_date", ascending=False).head(500)
 
-        ws_detail.merge_cells("A1:J1")
+        ws_detail.merge_cells("A1:K1")
         ws_detail["A1"] = "REGISTRE DÉTAILLÉ DES DOSSIERS EXTRAITS"
         ws_detail["A1"].font = FONT_TITLE
         ws_detail["A1"].alignment = ALIGN_CENTER
         ws_detail.row_dimensions[1].height = 28
 
-        ws_detail.merge_cells("A2:J2")
+        ws_detail.merge_cells("A2:K2")
         ws_detail["A2"] = f"500 derniers enregistrements | Export KAGU"
         ws_detail["A2"].font = FONT_SUBTITLE
         ws_detail["A2"].alignment = ALIGN_CENTER
 
+        # v3.0 : Ajout colonnes Vrai Type et Complexité
         detail_headers = [
-            "N° Dossier", "CSF", "Bureau", "Opérateur",
+            "N° Dossier", "CSF", "Bureau", "Opérateur", "Vrai Type",
             "Date Enregistrement", "Date Retour", "Date Indexation",
-            "Statut", "Pièces Indexées", "Anomalie Chrono",
+            "Statut", "Pièces Indexées", "Complexité", "Anomalie Chrono",
         ]
         for j, h in enumerate(detail_headers, 1):
             ws_detail.cell(row=4, column=j, value=h)
@@ -484,12 +560,15 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 statut = "—"
 
             anomalie = "Oui" if row_data.get("anomalie_chronologie") == True else "Non"
+            vrai_type = row_data.get("vrai_type", "—")
+            complexite = int(row_data.get("nb_proprietaires_uniques", 0)) if pd.notna(row_data.get("nb_proprietaires_uniques")) else 0
 
             vals = [
                 row_data.get("numero_dossier", "—"),
                 row_data.get("csf_geographique", "—"),
                 row_data.get("service_origine", "—"),
                 row_data.get("operateur", "—"),
+                vrai_type,
                 row_data["registration_date"].strftime("%d/%m/%Y %H:%M")
                 if pd.notna(row_data.get("registration_date")) else "—",
                 row_data["date_retour"].strftime("%d/%m/%Y %H:%M")
@@ -498,6 +577,7 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 if pd.notna(row_data.get("date_indexation")) else "—",
                 statut,
                 int(row_data.get("count_item", 0)) if pd.notna(row_data.get("count_item")) else 0,
+                complexite,
                 anomalie,
             ]
             for j, v in enumerate(vals, 1):
@@ -505,6 +585,14 @@ def generate_excel_report(duckdb_path: str, filters: dict, objectif: int) -> byt
                 cell.font = FONT_NORMAL
                 cell.alignment = ALIGN_CENTER
                 cell.border = BORDER_THIN
+                # v3.0 : Coloration conditionnelle Vrai Type
+                if j == 5:  # Colonne Vrai Type
+                    if v == "Entrée":
+                        cell.fill = FILL_GREEN_LIGHT
+                        cell.font = Font(name="Calibri", size=11, bold=True, color=GREEN_TEXT.lstrip("#"))
+                    elif v == "Sortie":
+                        cell.fill = FILL_RED_LIGHT
+                        cell.font = Font(name="Calibri", size=11, bold=True, color=RED_TEXT.lstrip("#"))
 
         _auto_adjust_columns(ws_detail)
 
@@ -529,7 +617,7 @@ class DashboardState(rx.State):
     is_loading: bool = False
     objectif_attendu: int = 100
     db_error: str = ""
-    type_options: list[str] = ["Tous"]
+    type_options: list[str] = ["Tous", "Entrée", "Sortie"]  # v3.0 : vrai_type
 
     kpi_objectif: int = 100
     kpi_taux_indexation: float = 0.0
@@ -545,6 +633,11 @@ class DashboardState(rx.State):
     kpi_bar_indexation: float = 0.0
     kpi_bar_num: float = 0.0
     kpi_ratio_indexation: float = 0.0
+    # v3.0 : Nouveaux KPIs complexité
+    kpi_complexite_moyenne: float = 0.0
+    kpi_complexite_conservation: float = 0.0
+    kpi_complexite_cadastre: float = 0.0
+    kpi_complexite_domaines: float = 0.0
 
     flux_data: list[dict] = []
     flux_svg_html: str = ""
@@ -553,9 +646,13 @@ class DashboardState(rx.State):
     productivite: list[dict] = []
     productivite_count: int = 0
     derniers_enregistrements: list[dict] = []
+    # v3.0 : Données de complexité par bureau
+    complexite_bureau: list[dict] = []
+    # v3.0 : Stats entrée/sortie
+    stats_es: dict = {"entrees": 0, "sorties": 0, "sans_sortie": 0}
 
     # =================================================================
-    # v2.8.7 — FIX : Graphique agrandi, axes optimisés, pas de dépassement
+    # v2.8.7 — Graphique flux SVG
     # =================================================================
     def _build_flux_svg(self, data_list: list[dict]) -> str:
         if not data_list:
@@ -586,7 +683,6 @@ class DashboardState(rx.State):
 
         fill_d = path_d + f" L {points[-1][0]:.1f} {m_top + chart_h:.1f} L {points[0][0]:.1f} {m_top + chart_h:.1f} Z"
 
-        # Grille horizontale + labels Y
         grid_lines = ""
         y_labels = ""
         for i in range(5):
@@ -596,7 +692,6 @@ class DashboardState(rx.State):
             grid_lines += f'<line x1="{m_left}" y1="{y_line:.1f}" x2="{m_left + chart_w}" y2="{y_line:.1f}" stroke="#F0F0F0" stroke-width="1"/>'
             y_labels += f'<text x="{m_left - 8}" y="{y_line + 3:.1f}" text-anchor="end" font-size="9" fill="#AAA">{val_label}</text>'
 
-        # Labels X : rotation -45° avec espace bas suffisant
         x_labels = ""
         for i, d in enumerate(data_list):
             x_pos = points[i][0]
@@ -605,7 +700,6 @@ class DashboardState(rx.State):
                             transform="rotate(-45, {x_pos:.1f}, {label_y})" 
                             text-anchor="end">{d["date"]}</text>'''
 
-        # Points sur la ligne
         circles = ""
         for x, y in points:
             circles += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="{GOLD}" stroke="{WHITE}" stroke-width="2"/>'
@@ -624,7 +718,7 @@ class DashboardState(rx.State):
         </svg>'''
 
     # =================================================================
-    # v2.8.4 — FIX : Donut legend compact + no overflow
+    # v2.8.4 — Donut HTML
     # =================================================================
     def _build_donut_html(self, vol_data: list[dict]) -> str:
         if not vol_data:
@@ -690,48 +784,99 @@ class DashboardState(rx.State):
         try:
             filters = {"start_date": self.start_date, "end_date": self.end_date, "service": self.selected_service, "csf": self.selected_csf, "type": self.selected_type}
             where_sql, params = _build_where(filters)
-            try:
-                type_rows = con.execute("SELECT DISTINCT motif_enregistrement FROM fact_suivi_global WHERE motif_enregistrement IS NOT NULL ORDER BY motif_enregistrement").fetchall()
-                self.type_options = ["Tous"] + [r[0] for r in type_rows if r[0]]
-            except Exception:
-                self.type_options = ["Tous", "Entrée", "Sortie"]
+
+            # v3.0 : Vérifier que fact_suivi_global a les colonnes nécessaires
+            # Si pas de colonnes vrai_type / nb_proprietaires_uniques, on les simule
+            cols_info = con.execute("PRAGMA table_info(fact_suivi_global)").fetchall()
+            col_names = [c[1] for c in cols_info]
+
+            has_vrai_type = "vrai_type" in col_names
+            has_complexite = "nb_proprietaires_uniques" in col_names
+            has_record_type_uuid = "record_type_uuid" in col_names
+            has_output_id = "output_id" in col_names
+            has_duree_num = "duree_numerisation_h" in col_names
+
+            # Adapter les requêtes selon la structure disponible
+            if not has_vrai_type:
+                # Fallback : utiliser motif_enregistrement comme proxy
+                # mais logiquement on devrait reconstruire la vue
+                print("AVERTISSEMENT: colonne vrai_type absente, utilisation de motif_enregistrement")
+
+            # --- KPI Total Dossiers ---
             row = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE {where_sql}", params).fetchone()
             self.kpi_total_dossiers = _safe_int(row[0])
+
+            # --- KPI Attente Numérisation ---
             row = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE is_for_scan = TRUE AND date_indexation IS NULL AND {where_sql}", params).fetchone()
             self.kpi_attente_num = _safe_int(row[0])
-            row = con.execute(f"SELECT COALESCE(SUM(count_item), 0) FROM fact_suivi_global WHERE date_indexation IS NOT NULL AND {where_sql}", params).fetchone()
-            self.kpi_pieces_indexees = _safe_int(row[0])
-            row = con.execute(f"SELECT COALESCE(COUNT(DISTINCT CASE WHEN date_retour IS NOT NULL THEN numero_dossier END) * 100.0 / NULLIF(COUNT(DISTINCT numero_dossier), 0), 0) FROM fact_suivi_global WHERE {where_sql}", params).fetchone()
-            self.kpi_taux_restitution = round(_safe_float(row[0]), 1)
 
+            # --- KPI Pièces Indexées ---
+            # v3.1 : count_item est un attribut par DOSSIER (general_index), pas par
+            # mouvement. Il faut le dédupliquer par numero_dossier avant SUM, sinon
+            # il est compté une fois par mouvement (Entrée/Sortie/Retour).
             row = con.execute(
                 f"""
-                SELECT COALESCE(
-                    AVG(
-                        EXTRACT(EPOCH FROM (date_retour - date_indexation)) / 3600
-                    ), 0
+                SELECT COALESCE(SUM(count_item), 0) FROM (
+                    SELECT numero_dossier, MAX(count_item) AS count_item
+                    FROM fact_suivi_global
+                    WHERE date_indexation IS NOT NULL AND {where_sql}
+                    GROUP BY numero_dossier
                 )
-                FROM fact_suivi_global
-                WHERE date_retour IS NOT NULL
-                  AND date_indexation IS NOT NULL
-                  AND {where_sql}
                 """,
                 params
             ).fetchone()
+            self.kpi_pieces_indexees = _safe_int(row[0])
+
+            # --- KPI Taux Restitution ---
+            row = con.execute(f"SELECT COALESCE(COUNT(DISTINCT CASE WHEN date_retour IS NOT NULL THEN numero_dossier END) * 100.0 / NULLIF(COUNT(DISTINCT numero_dossier), 0), 0) FROM fact_suivi_global WHERE {where_sql}", params).fetchone()
+            self.kpi_taux_restitution = round(_safe_float(row[0]), 1)
+
+            # --- KPI Durée Moyenne Numérisation ---
+            # v3.1 : durée = Entrée de retour liée (output_id) - Sortie envoi scan,
+            # calculée dans l'ETL via duree_numerisation_h. Fallback sur
+            # date_retour - date_indexation si l'ETL n'a pas encore été rejoué.
+            if has_duree_num:
+                row = con.execute(
+                    f"""
+                    SELECT COALESCE(AVG(TRY_CAST(duree_numerisation_h AS DOUBLE)), 0)
+                    FROM fact_suivi_global
+                    WHERE duree_numerisation_h IS NOT NULL AND {where_sql}
+                    """,
+                    params
+                ).fetchone()
+            else:
+                # --- KPI Durée Moyenne Numérisation ---
+                # v3.2 : utilise directement duree_numerisation_h calculée par l'ETL
+                row = con.execute(
+                    f"""
+                    SELECT COALESCE(AVG(duree_numerisation_h), 0)
+                    FROM fact_suivi_global
+                    WHERE duree_numerisation_h IS NOT NULL AND {where_sql}
+                    """,
+                    params
+                ).fetchone()
+
             self.kpi_duree_moyenne = round(_safe_float(row[0]), 1)
 
+            # --- KPI Dossiers / Jour ---
             row = con.execute(f"SELECT COALESCE(COUNT(DISTINCT numero_dossier) * 1.0 / NULLIF(COUNT(DISTINCT registration_date::DATE), 0), 0) FROM fact_suivi_global WHERE {where_sql}", params).fetchone()
             self.kpi_dossiers_jour = round(_safe_float(row[0]), 1)
+
+            # --- KPI Taux Indexation ---
             row = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE date_indexation IS NOT NULL AND {where_sql}", params).fetchone()
             indexes = _safe_int(row[0])
             self.kpi_taux_indexation = round((indexes / max(self.objectif_attendu, 1)) * 100, 1)
+
+            # --- KPI Taux Numérisation ---
             row = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE is_for_scan = TRUE AND {where_sql}", params).fetchone()
             numerises = _safe_int(row[0])
             self.kpi_taux_num = round((numerises / max(self.objectif_attendu, 1)) * 100, 1)
-            # Barres clampées à 100% et ratio de couverture
+
             self.kpi_bar_indexation = min(self.kpi_taux_indexation, 100.0)
             self.kpi_bar_num = min(self.kpi_taux_num, 100.0)
             self.kpi_ratio_indexation = round(self.kpi_taux_indexation / 100.0, 1)
+
+            # --- KPI Top Archiviste ---
             row = con.execute(f"SELECT operateur, COUNT(DISTINCT numero_dossier) as total FROM fact_suivi_global WHERE {where_sql} GROUP BY operateur ORDER BY total DESC LIMIT 1", params).fetchone()
             if row and row[0]:
                 self.kpi_top_archiviste = str(row[0])
@@ -740,6 +885,84 @@ class DashboardState(rx.State):
                 self.kpi_top_archiviste = "—"
                 self.kpi_top_total = 0
 
+            # v3.0 --- KPI Complexité Moyenne Globale ---
+            if has_complexite:
+                row = con.execute(
+                    f"""
+                    SELECT COALESCE(AVG(nb_proprietaires_uniques), 0)
+                    FROM (
+                        SELECT numero_dossier, MAX(nb_proprietaires_uniques) as nb_proprietaires_uniques
+                        FROM fact_suivi_global
+                        WHERE {where_sql}
+                        GROUP BY numero_dossier
+                    )
+                    """, params
+                ).fetchone()
+                self.kpi_complexite_moyenne = round(_safe_float(row[0]), 1)
+
+                # Complexité par bureau
+                rows = con.execute(
+                    f"""
+                    SELECT service_origine, COALESCE(AVG(nb_prop), 0) as comp_moy
+                    FROM (
+                        SELECT service_origine, numero_dossier, MAX(nb_proprietaires_uniques) as nb_prop
+                        FROM fact_suivi_global
+                        WHERE service_origine IS NOT NULL AND {where_sql}
+                        GROUP BY service_origine, numero_dossier
+                    )
+                    GROUP BY service_origine
+                    ORDER BY comp_moy DESC
+                    """, params
+                ).fetchall()
+                # self.complexite_bureau = [
+                #     {"bureau": str(r[0]), "complexite": round(_safe_float(r[1]), 1)} 
+                #     for r in rows
+                # ]
+                self.complexite_bureau = [
+                    {
+                        "bureau": str(r[0]),
+                        "complexite": round(_safe_float(r[1]), 1),
+                        "bar_width_str": f"{min(round(_safe_float(r[1]) * 20), 100)}%",
+                        "categorie": "Élevée" if round(_safe_float(r[1]), 1) >= 5 else ("Moyenne" if round(_safe_float(r[1]), 1) >= 2 else "Faible"),
+                        "is_conservation": str(r[0]) == "Conservation",
+                        "is_elevee": "Élevée" if round(_safe_float(r[1]), 1) >= 5 else ("Moyenne" if round(_safe_float(r[1]), 1) >= 2 else "Faible") == "Élevée",
+                        "is_moyenne": "Élevée" if round(_safe_float(r[1]), 1) >= 5 else ("Moyenne" if round(_safe_float(r[1]), 1) >= 2 else "Faible") == "Moyenne",
+                    }
+                    for r in rows
+                ]
+
+                # Complexité par bureau (KPIs individuels)
+                for r in rows:
+                    bureau = str(r[0])
+                    comp = round(_safe_float(r[1]), 1)
+                    if bureau == "Conservation":
+                        self.kpi_complexite_conservation = comp
+                    elif bureau == "Cadastre":
+                        self.kpi_complexite_cadastre = comp
+                    elif bureau == "Domaines":
+                        self.kpi_complexite_domaines = comp
+            else:
+                self.kpi_complexite_moyenne = 0.0
+                self.complexite_bureau = []
+
+            # v3.0 --- Stats Entrée/Sortie ---
+            if has_vrai_type:
+                row_e = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE vrai_type = 'Entrée' AND {where_sql}", params).fetchone()
+                row_s = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE vrai_type = 'Sortie' AND {where_sql}", params).fetchone()
+                self.stats_es = {
+                    "entrees": _safe_int(row_e[0]),
+                    "sorties": _safe_int(row_s[0]),
+                }
+            else:
+                # Fallback sur motif_enregistrement
+                row_e = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE LOWER(motif_enregistrement) LIKE '%entrée%' AND {where_sql}", params).fetchone()
+                row_s = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE LOWER(motif_enregistrement) LIKE '%sortie%' AND {where_sql}", params).fetchone()
+                self.stats_es = {
+                    "entrees": _safe_int(row_e[0]),
+                    "sorties": _safe_int(row_s[0]),
+                }
+
+            # --- Flux d'activité ---
             if self.flux_period == "Mois":
                 period_expr = "STRFTIME('%Y-%m', registration_date::TIMESTAMP)"
             else:
@@ -754,26 +977,48 @@ class DashboardState(rx.State):
             self.flux_data = [{"date": str(r[0]), "value": _safe_int(r[1])} for r in rows]
             self.flux_svg_html = self._build_flux_svg(self.flux_data)
 
+            # --- Volume par bureau (Donut) ---
             rows = con.execute(f"SELECT service_origine as bureau, COUNT(DISTINCT numero_dossier) as volume FROM fact_suivi_global WHERE service_origine IS NOT NULL AND {where_sql} GROUP BY service_origine ORDER BY volume DESC", params).fetchall()
             total_vol = sum(r[1] for r in rows) if rows else 1
             colors = {"Cadastre": GOLD, "Conservation": BROWN, "Domaines": "#A0826D"}
             self.volumes_bureau = [{"bureau": str(r[0]), "volume": _safe_int(r[1]), "pct": round(_safe_int(r[1]) / total_vol * 100, 1), "color": colors.get(str(r[0]), "#999")} for r in rows]
             self.donut_html = self._build_donut_html(self.volumes_bureau)
+
+            # --- Productivité ---
             rows = con.execute(f"SELECT operateur, service_origine as bureau, COUNT(DISTINCT numero_dossier) as dossiers, COALESCE(COUNT(DISTINCT numero_dossier) * 1.0 / NULLIF(COUNT(DISTINCT registration_date::DATE), 0), 0) as moyenne FROM fact_suivi_global WHERE operateur IS NOT NULL AND {where_sql} GROUP BY operateur, service_origine ORDER BY dossiers DESC LIMIT 11", params).fetchall()
             max_dossiers = max(_safe_int(r[2]) for r in rows) if rows else 1
             self.productivite = [{"rang": i + 1, "agent": str(r[0]), "csf": self.selected_csf if self.selected_csf != "Tous" else "Dakar Plateau", "bureau": str(r[1]), "dossiers": _safe_int(r[2]), "moyenne": round(_safe_float(r[3]), 1), "pct": round((_safe_int(r[2]) / max_dossiers) * 100, 1)} for i, r in enumerate(rows)]
             self.productivite_count = len(self.productivite)
-            rows = con.execute(f"SELECT numero_dossier as code, COALESCE(NULLIF(folder_label, ''), motif_enregistrement, '—') as desc, COALESCE(motif_enregistrement, '—') as type, registration_date FROM fact_suivi_global WHERE {where_sql} ORDER BY registration_date DESC LIMIT 5", params).fetchall()
-            self.derniers_enregistrements = [{"code": str(r[0]), "desc": str(r[1]), "type_badge": "Entrée" if "entrée" in str(r[2]).lower() or "réception" in str(r[2]).lower() else "Sortie"} for r in rows]
+
+            # --- Derniers enregistrements ---
+            # v3.0 : Utiliser vrai_type si disponible
+            type_col = "vrai_type" if has_vrai_type else "motif_enregistrement"
+            rows = con.execute(f"SELECT numero_dossier as code, COALESCE(NULLIF(folder_label, ''), motif_enregistrement, '—') as desc, COALESCE({type_col}, '—') as type, registration_date FROM fact_suivi_global WHERE {where_sql} ORDER BY registration_date DESC LIMIT 5", params).fetchall()
+            self.derniers_enregistrements = [{"code": str(r[0]), "desc": str(r[1]), "type_badge": "Entrée" if "entrée" in str(r[2]).lower() or str(r[2]) == "Entrée" else "Sortie"} for r in rows]
         finally:
             con.close()
 
+    # =================================================================
+    # v3.0 — VALIDATION DATES
+    # =================================================================
     async def set_start_date(self, value: str):
         self.start_date = value
+        valid, msg = _validate_date_range(self.start_date, self.end_date)
+        if not valid:
+            self.db_error = msg
+            self.is_loading = False
+            return
+        self.db_error = ""
         await self.load_data()
 
     async def set_end_date(self, value: str):
         self.end_date = value
+        valid, msg = _validate_date_range(self.start_date, self.end_date)
+        if not valid:
+            self.db_error = msg
+            self.is_loading = False
+            return
+        self.db_error = ""
         await self.load_data()
 
     async def set_service(self, value: str):
@@ -805,6 +1050,7 @@ class DashboardState(rx.State):
         start = today - timedelta(days=today.weekday())
         self.start_date = start.strftime("%Y-%m-%d")
         self.end_date = today.strftime("%Y-%m-%d")
+        self.db_error = ""
         await self.load_data()
 
     async def select_last_recorded_week(self):
@@ -831,11 +1077,13 @@ class DashboardState(rx.State):
                 self.end_date = end.strftime("%Y-%m-%d")
         finally:
             con.close()
+        self.db_error = ""
         await self.load_data()
 
     async def reset_date_filters(self):
         self.start_date = ""
         self.end_date = ""
+        self.db_error = ""
         await self.load_data()
 
     async def set_flux_mois(self):
@@ -910,26 +1158,24 @@ def header() -> rx.Component:
         rx.spacer(),
         rx.button(
             rx.hstack(
-                rx.icon("download", size=14), # Suppression du style="inherit"
-                rx.text("Exporter en Excel", font_size="13px", font_weight="500"), # Suppression du style="inherit"
+                rx.icon("download", size=14),
+                rx.text("Exporter en Excel", font_size="13px", font_weight="500"),
                 spacing="2", align_items="center"
             ),
             bg=WHITE, color=BROWN, border=f"1px solid {BROWN}", border_radius="8px",
             padding="8px 18px", height="40px", cursor="pointer",
-            # Le _hover appliquera désormais correctement le texte blanc
             _hover={"bg": BROWN, "color": WHITE, "border_color": BROWN, "transition": "all 0.2s ease"},
             on_click=DashboardState.export_excel
         ),
         width="100%", padding="16px 32px", bg=WHITE, border_bottom=f"1px solid {BORDER_HDR}", align_items="center",
     )
 
+
 def filter_bar() -> rx.Component:
     label_style = {"color": TEXT_MUTED, "font_size": "10px", "font_weight": "600", "letter_spacing": "0.5px", "text_transform": "uppercase"}
     input_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 12px", "font_size": "13px", "color": TEXT_MAIN, "width": "140px", "height": "38px"}
     btn_ghost = {"variant": "ghost", "size": "2", "color": BROWN, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"bg": BROWN, "color": WHITE, "transition": "all 0.2s ease"}}
     btn_muted = {"variant": "ghost", "size": "2", "color": TEXT_MUTED, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"color": BROWN, "border_color": BROWN, "transition": "all 0.2s ease"}}
-    
-    # Ajout de la couleur noire (TEXT_MAIN) directement dans le style global des selects
     select_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "font_size": "13px", "width": "130px", "height": "38px", "bg": WHITE, "color": TEXT_MAIN}
 
     return rx.box(
@@ -953,12 +1199,11 @@ def filter_bar() -> rx.Component:
             ),
             width="100%",
             align_items="end",
-            # Les lignes max_width et margin ont été supprimées ici
         ),
         padding="14px 32px",
         bg=WHITE,
         border_bottom=f"1px solid {BORDER_HDR}",
-        width="100%", # Ajout d'une garantie que la boîte globale prend tout l'espace
+        width="100%",
     )
 
 
@@ -969,7 +1214,6 @@ def objectives_section() -> rx.Component:
             rx.spacer(),
             rx.vstack(
                 rx.text("DOSSIERS ATTENDUS", color=TEXT_MUTED, font_size="10px", font_weight="600", letter_spacing="0.5px"), 
-                # Correction de l'input : suppression du dict style=...
                 rx.input(
                     value=DashboardState.objectif_attendu.to_string(), 
                     on_change=DashboardState.set_objectif_attendu, 
@@ -997,20 +1241,63 @@ def metrics_section() -> rx.Component:
         return rx.box(rx.vstack(rx.hstack(rx.text(title, color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon(icon_name, size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.text(value, font_size="24px", font_weight="bold", color=TEXT_MAIN, line_height="1", margin_top="8px"), rx.text(subtitle, color=TEXT_MUTED, font_size="11px", margin_top="4px"), spacing="1", align_items="start", width="100%"), padding="18px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%")
     def dark_card(title, value, subtitle, icon_name):
         return rx.box(rx.vstack(rx.hstack(rx.text(title, color="rgba(255,255,255,0.7)", font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon(icon_name, size=16, color=GOLD), bg="rgba(255,255,255,0.1)", padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.text(value, font_size="24px", font_weight="bold", color=WHITE, line_height="1", margin_top="8px"), rx.text(subtitle, color="rgba(255,255,255,0.7)", font_size="11px", margin_top="4px"), spacing="1", align_items="start", width="100%"), padding="18px", bg=BROWN_DARK, border_radius="12px", width="100%", height="100%")
-    return rx.grid(
-        std_card("Total de dossiers", DashboardState.kpi_total_dossiers.to_string(), "Dossiers uniques", "folder"),
-        std_card("Attente numérisation", DashboardState.kpi_attente_num.to_string(), "Flux restant", "scan"),
-        std_card("Pièces indexées", DashboardState.kpi_pieces_indexees.to_string(), "Feuillets indexés", "file-text"),
-        dark_card("Taux de restitution", f"{DashboardState.kpi_taux_restitution} %", "Dossiers restitués", "refresh-cw"),
-        std_card("Durée moyenne scan", f"{DashboardState.kpi_duree_moyenne} h", "Délai indexation → retour", "clock"),
-        std_card("Dossiers par jour", f"{DashboardState.kpi_dossiers_jour} /j", "Cadence moyenne", "trending-up"),
-        std_card("Top archiviste", DashboardState.kpi_top_archiviste, f"Total : {DashboardState.kpi_top_total} dossiers", "user"),
-        columns="4", spacing="4", width="100%", margin_top="16px",
+
+    # v3.0 : Ajout carte complexité moyenne
+    def complexite_card(title, value, subtitle, icon_name, bureau_name=""):
+        # Couleur spécifique pour Conservation (plus complexe)
+        bg_color = rx.cond(bureau_name == "Conservation", "#F5E6C8", CREAM_CARD)
+        txt_color = rx.cond(bureau_name == "Conservation", BROWN, TEXT_MAIN)
+        return rx.box(
+            rx.vstack(
+                rx.hstack(
+                    rx.text(title, color=TEXT_MUTED, font_size="12px", font_weight="500"),
+                    rx.spacer(),
+                    rx.box(rx.icon(icon_name, size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"),
+                    width="100%", align_items="center"
+                ),
+                rx.hstack(
+                    rx.text(value, font_size="24px", font_weight="bold", color=txt_color, line_height="1"),
+                    rx.text("prop./dossier", font_size="11px", color=TEXT_MUTED, margin_top="4px"),
+                    spacing="1", align_items="end"
+                ),
+                rx.text(subtitle, color=TEXT_MUTED, font_size="11px", margin_top="4px"),
+                spacing="1", align_items="start", width="100%"
+            ),
+            padding="18px", bg=bg_color, border_radius="12px",
+            border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW,
+            width="100%", height="100%"
+        )
+
+    return rx.vstack(
+        rx.grid(
+            std_card("Total de dossiers", DashboardState.kpi_total_dossiers.to_string(), "Dossiers uniques", "folder"),
+            std_card("Attente numérisation", DashboardState.kpi_attente_num.to_string(), "Flux restant", "scan"),
+            std_card("Pièces indexées", DashboardState.kpi_pieces_indexees.to_string(), "Feuillets indexés", "file-text"),
+            dark_card("Taux de restitution", f"{DashboardState.kpi_taux_restitution} %", "Dossiers restitués", "refresh-cw"),
+            std_card("Durée moyenne scan", f"{DashboardState.kpi_duree_moyenne} h", "Délai indexation → retour", "clock"),
+            std_card("Dossiers par jour", f"{DashboardState.kpi_dossiers_jour} /j", "Cadence moyenne", "trending-up"),
+            std_card("Top archiviste", DashboardState.kpi_top_archiviste, f"Total : {DashboardState.kpi_top_total} dossiers", "user"),
+            # v3.0 : Carte complexité moyenne globale
+            complexite_card("Complexité moyenne", f"{DashboardState.kpi_complexite_moyenne}", "Propriétaires/dossier", "users", ""),
+            columns="4", spacing="4", width="100%", margin_top="16px",
+        ),
+        # v3.0 : Ligne de complexité par bureau
+        rx.cond(
+            DashboardState.kpi_complexite_moyenne > 0,
+            rx.grid(
+                complexite_card("Complexité Cadastre", f"{DashboardState.kpi_complexite_cadastre}", "Propriétaires/dossier", "map-pin", "Cadastre"),
+                complexite_card("Complexité Conservation", f"{DashboardState.kpi_complexite_conservation}", "Propriétaires/dossier", "shield", "Conservation"),
+                complexite_card("Complexité Domaines", f"{DashboardState.kpi_complexite_domaines}", "Propriétaires/dossier", "globe", "Domaines"),
+                columns="3", spacing="4", width="100%", margin_top="16px",
+            ),
+            rx.box()
+        ),
+        width="100%", spacing="0",
     )
 
 
 # =============================================================================
-# v2.8.7 — FIX : Conteneur agrandi pour éviter tout dépassement du SVG
+# v2.8.7 — Conteneur agrandi pour éviter tout dépassement du SVG
 # =============================================================================
 def activity_chart() -> rx.Component:
     return rx.box(
@@ -1088,6 +1375,145 @@ def recent_records() -> rx.Component:
     ), bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%")
 
 
+# v3.0 — NOUVEAU : Tableau de complexité par bureau
+def complexity_table() -> rx.Component:
+    def complexity_row(row: dict) -> rx.Component:
+        return rx.hstack(
+            rx.box(bureau_badge(row["bureau"]), width="120px"),
+            rx.hstack(
+                rx.box(
+                    rx.box(
+                        width=row["bar_width_str"],  # ← string pré-calculée
+                        height="8px",
+                        bg=rx.cond(row["is_conservation"], BROWN, GOLD),
+                        border_radius="4px"
+                    ),
+                    width="100%",
+                    bg="#F0F0F0",
+                    border_radius="4px",
+                    height="8px"
+                ),
+                rx.text(row["complexite"], color=TEXT_MAIN, font_size="14px", font_weight="600", width="50px", text_align="right"),
+                spacing="2",
+                align_items="center",
+                flex="1"
+            ),
+            rx.text(
+                row["categorie"],  # ← string pré-calculée
+                color=rx.cond(
+                    row["is_elevée"], RED_TEXT,
+                    rx.cond(row["is_moyenne"], GOLD, GREEN_TEXT)
+                ),
+                font_size="12px",
+                font_weight="500",
+                width="80px",
+                text_align="right"
+            ),
+            width="100%",
+            align_items="center",
+            padding="10px 0",
+            border_bottom=f"1px solid {BORDER_CARD}",
+        )
+    return rx.box(
+        rx.vstack(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("bar-chart-3", size=16, color=GOLD),
+                    rx.text("Complexité onomastique par bureau", color=TEXT_MAIN, font_size="14px", font_weight="600"),
+                    spacing="2",
+                    align_items="center"
+                ),
+                rx.spacer(),
+                rx.text("Propriétaires uniques / dossier", color=TEXT_MUTED, font_size="11px"),
+                width="100%",
+                align_items="center",
+                padding="16px 20px"
+            ),
+            rx.hstack(
+                rx.text("BUREAU", color=TEXT_MUTED, font_size="10px", font_weight="700", letter_spacing="0.5px", width="120px"),
+                rx.text("NIVEAU DE COMPLEXITÉ", color=TEXT_MUTED, font_size="10px", font_weight="700", letter_spacing="0.5px", flex="1"),
+                rx.text("CATÉGORIE", color=TEXT_MUTED, font_size="10px", font_weight="700", letter_spacing="0.5px", width="80px", text_align="right"),
+                width="100%",
+                padding="0 20px 8px 20px",
+                border_bottom=f"2px solid {BORDER_CARD}"
+            ),
+            rx.vstack(
+                rx.foreach(DashboardState.complexite_bureau, complexity_row),
+                width="100%",
+                padding="0 20px",
+                spacing="0"
+            ),
+            width="100%",
+            spacing="0",
+        ),
+        bg=WHITE,
+        border_radius="12px",
+        border=f"1px solid {BORDER_CARD}",
+        box_shadow=SHADOW,
+        width="100%"
+    )
+
+
+# v3.0 — NOUVEAU : Stats Entrée/Sortie
+def es_stats_section() -> rx.Component:
+    return rx.box(
+        rx.vstack(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("arrow-left-right", size=16, color=GOLD),
+                    rx.text("Balance Entrées / Sorties", color=TEXT_MAIN, font_size="14px", font_weight="600"),
+                    spacing="2",
+                    align_items="center"
+                ),
+                rx.spacer(),
+                width="100%",
+                align_items="center",
+                padding="16px 20px"
+            ),
+            rx.hstack(
+                rx.box(
+                    rx.vstack(
+                        rx.text("ENTRÉES", color=GREEN_TEXT, font_size="10px", font_weight="700", letter_spacing="1px"),
+                        rx.text(DashboardState.stats_es["entrees"].to_string(), font_size="28px", font_weight="bold", color=GREEN_TEXT, line_height="1"),
+                        rx.text("Dossiers en entrée", color=TEXT_MUTED, font_size="11px"),
+                        spacing="1",
+                        align_items="center",
+                        width="100%"
+                    ),
+                    padding="20px",
+                    bg=GREEN_LIGHT,
+                    border_radius="10px",
+                    width="50%"
+                ),
+                rx.box(
+                    rx.vstack(
+                        rx.text("SORTIES", color=RED_TEXT, font_size="10px", font_weight="700", letter_spacing="1px"),
+                        rx.text(DashboardState.stats_es["sorties"].to_string(), font_size="28px", font_weight="bold", color=RED_TEXT, line_height="1"),
+                        rx.text("Dossiers en sortie", color=TEXT_MUTED, font_size="11px"),
+                        spacing="1",
+                        align_items="center",
+                        width="100%"
+                    ),
+                    padding="20px",
+                    bg=RED_LIGHT,
+                    border_radius="10px",
+                    width="50%"
+                ),
+                spacing="4",
+                width="100%",
+                padding="0 20px 20px 20px"
+            ),
+            width="100%",
+            spacing="0",
+        ),
+        bg=WHITE,
+        border_radius="12px",
+        border=f"1px solid {BORDER_CARD}",
+        box_shadow=SHADOW,
+        width="100%"
+    )
+
+
 def loading_spinner() -> rx.Component:
     return rx.center(rx.vstack(rx.spinner(size="3", color=GOLD, thickness="4px"), rx.text("Chargement des données...", color=TEXT_MUTED, font_size="14px", margin_top="16px")), width="100%", height="100vh", bg=CREAM)
 
@@ -1099,14 +1525,54 @@ def error_banner() -> rx.Component:
 def index() -> rx.Component:
     return rx.box(
         rx.cond(DashboardState.is_loading & (DashboardState.kpi_total_dossiers == 0), loading_spinner(),
-            rx.vstack(header(), filter_bar(), error_banner(), rx.box(rx.vstack(
-                objectives_section(), metrics_section(),
-                rx.hstack(rx.box(activity_chart(), width="65%"), rx.box(volume_donut(), width="35%"), spacing="4", width="100%", align_items="stretch"),
-                rx.hstack(rx.box(productivity_table(), width="60%"), rx.box(recent_records(), width="40%"), spacing="4", width="100%", align_items="stretch"),
-                spacing="6", width="100%", max_width="1400px", margin="0 auto", padding="24px 0",
-            ), width="100%", bg=CREAM, min_height="100vh"), spacing="0", width="100%"),
+            rx.vstack(
+                header(),
+                filter_bar(),
+                error_banner(),
+                rx.box(
+                    rx.vstack(
+                        objectives_section(),
+                        metrics_section(),
+                        rx.hstack(
+                            rx.box(activity_chart(), width="65%"),
+                            rx.box(volume_donut(), width="35%"),
+                            spacing="4",
+                            width="100%",
+                            align_items="stretch"
+                        ),
+                        # v3.0 : Nouvelle ligne avec stats E/S et complexité
+                        rx.hstack(
+                            rx.box(es_stats_section(), width="40%"),
+                            rx.box(complexity_table(), width="60%"),
+                            spacing="4",
+                            width="100%",
+                            align_items="stretch"
+                        ),
+                        rx.hstack(
+                            rx.box(productivity_table(), width="60%"),
+                            rx.box(recent_records(), width="40%"),
+                            spacing="4",
+                            width="100%",
+                            align_items="stretch"
+                        ),
+                        spacing="6",
+                        width="100%",
+                        max_width="1400px",
+                        margin="0 auto",
+                        padding="24px 0",
+                    ),
+                    width="100%",
+                    bg=CREAM,
+                    min_height="100vh"
+                ),
+                spacing="0",
+                width="100%"
+            ),
         ),
-        width="100%", min_height="100vh", bg=CREAM, on_mount=DashboardState.on_load,
+        width="100%",
+        min_height="100vh",
+        bg=CREAM,
+        on_mount=DashboardState.on_load,
     )
 
 
