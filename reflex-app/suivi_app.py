@@ -946,21 +946,23 @@ class DashboardState(rx.State):
                 self.complexite_bureau = []
 
             # v3.0 --- Stats Entrée/Sortie ---
-            if has_vrai_type:
-                row_e = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE vrai_type = 'Entrée' AND {where_sql}", params).fetchone()
-                row_s = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE vrai_type = 'Sortie' AND {where_sql}", params).fetchone()
+            if has_record_type_uuid:
+                row_e = con.execute(
+                    f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE record_type_uuid = '{UUID_ENTREE}' AND {where_sql}", 
+                    params
+                ).fetchone()
+                row_s = con.execute(
+                    f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE record_type_uuid = '{UUID_SORTIE}' AND {where_sql}", 
+                    params
+                ).fetchone()
                 self.stats_es = {
                     "entrees": _safe_int(row_e[0]),
                     "sorties": _safe_int(row_s[0]),
                 }
             else:
-                # Fallback sur motif_enregistrement
-                row_e = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE LOWER(motif_enregistrement) LIKE '%entrée%' AND {where_sql}", params).fetchone()
-                row_s = con.execute(f"SELECT COUNT(DISTINCT numero_dossier) FROM fact_suivi_global WHERE LOWER(motif_enregistrement) LIKE '%sortie%' AND {where_sql}", params).fetchone()
-                self.stats_es = {
-                    "entrees": _safe_int(row_e[0]),
-                    "sorties": _safe_int(row_s[0]),
-                }
+                # Lève une erreur claire plutôt que de bidouiller avec des chaînes de caractères
+                self.db_error = "La colonne record_type_uuid est manquante dans la table fact_suivi_global."
+                self.stats_es = {"entrees": 0, "sorties": 0}
 
             # --- Flux d'activité ---
             if self.flux_period == "Mois":
