@@ -1,0 +1,60 @@
+[2026-07-29T19:11:20.965+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-29T17:00:00+00:00 [queued]>
+[2026-07-29T19:11:21.028+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-29T17:00:00+00:00 [queued]>
+[2026-07-29T19:11:21.030+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-07-29T19:11:21.125+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-07-29 17:00:00+00:00
+[2026-07-29T19:11:21.153+0000] {standard_task_runner.py:57} INFO - Started process 9226 to run task
+[2026-07-29T19:11:21.174+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-07-29T17:00:00+00:00', '--job-id', '304', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpht16awcf']
+[2026-07-29T19:11:21.191+0000] {standard_task_runner.py:85} INFO - Job 304: Subtask execution_pipeline_etl
+[2026-07-29T19:11:21.557+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-07-29T17:00:00+00:00 [running]> on host 93e7be027a1d
+[2026-07-29T19:11:22.153+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-07-29T17:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-07-29T17:00:00+00:00'
+[2026-07-29T19:11:22.476+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-07-30T01:25:45.988+0000] {local_task_job_runner.py:205} ERROR - Heartbeat time limit exceeded!
+[2026-07-30T01:25:46.029+0000] {process_utils.py:131} INFO - Sending 15 to group 9226. PIDs of all processes in the group: [9226]
+[2026-07-30T01:25:46.039+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 9226
+[2026-07-30T01:25:46.107+0000] {taskinstance.py:1632} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-07-30T01:25:46.111+0000] {docker.py:498} INFO - Stopping docker container
+[2026-07-30T01:25:55.656+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 400, in _run_image_with_mounts
+    self.cli.start(self.container["Id"])
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/decorators.py", line 19, in wrapped
+    return f(self, resource_id, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 1126, in start
+    res = self._post(url)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/decorators.py", line 46, in inner
+    return f(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 233, in _post
+    return self.post(url, **self._set_request_timeout(kwargs))
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/airflow/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 714, in urlopen
+    httplib_response = self._make_request(
+  File "/home/airflow/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/home/airflow/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 461, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/usr/local/lib/python3.10/socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 1634, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-07-30T01:25:55.885+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260729T170000, start_date=20260729T191120, end_date=20260730T012555
+[2026-07-30T01:25:56.090+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 304 for task execution_pipeline_etl (Task received SIGTERM signal; 9226)
+[2026-07-30T01:25:56.347+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=9226, status='terminated', exitcode=1, started='19:11:20') (9226) terminated with exit code 1

@@ -1,0 +1,2644 @@
+[2026-08-06T18:44:36.083+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-06T17:00:00+00:00 [queued]>
+[2026-08-06T18:44:36.147+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-06T17:00:00+00:00 [queued]>
+[2026-08-06T18:44:36.152+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-08-06T18:44:36.235+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-08-06 17:00:00+00:00
+[2026-08-06T18:44:36.311+0000] {standard_task_runner.py:57} INFO - Started process 8559 to run task
+[2026-08-06T18:44:36.330+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-08-06T17:00:00+00:00', '--job-id', '22', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmp3b4q7l8h']
+[2026-08-06T18:44:36.457+0000] {standard_task_runner.py:85} INFO - Job 22: Subtask execution_pipeline_etl
+[2026-08-06T18:44:36.949+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-06T17:00:00+00:00 [running]> on host 7bf36b9eabda
+[2026-08-06T18:44:37.549+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-08-06T17:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-08-06T17:00:00+00:00'
+[2026-08-06T18:44:37.777+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-08-06T20:16:48.283+0000] {local_task_job_runner.py:205} ERROR - Heartbeat time limit exceeded!
+[2026-08-06T20:16:48.781+0000] {process_utils.py:131} INFO - Sending 15 to group 8559. PIDs of all processes in the group: [8559]
+[2026-08-06T20:16:48.882+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 8559
+[2026-08-06T20:16:48.901+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Dakar Plateau (dkp)
+  📥 Extraction de Cadastre depuis [cadastre_dkp_db]...
+[2026-08-06T20:16:49.879+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+RuntimeError: reentrant call inside <_io.BufferedWriter name='/opt/airflow/logs/dag_id=pipeline_ingestion_suivi/run_id=scheduled__2026-08-06T17:00:00+00:00/task_id=execution_pipeline_etl/attempt=1.log'>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 406, in _run_image_with_mounts
+    self.log.info("%s", log_chunk)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1477, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1104, in emit
+    self.flush()
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1084, in flush
+    self.stream.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 1632, in signal_handler
+    self.log.error("Received SIGTERM. Terminating subprocesses.")
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1506, in error
+    self._log(ERROR, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1108, in emit
+    self.handleError(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1021, in handleError
+    sys.stderr.write('--- Logging error ---\n')
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 163, in write
+    self.flush()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 170, in flush
+    self._propagate_log(buf)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/logging_mixin.py", line 151, in _propagate_log
+    self.logger.log(self.level, remove_escape_codes(message))
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1547, in log
+    self._log(level, msg, args, **kwargs)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1624, in _log
+    self.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1634, in handle
+    self.callHandlers(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1696, in callHandlers
+    hdlr.handle(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 968, in handle
+    self.emit(record)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/file_task_handler.py", line 210, in emit
+    self.handler.emit(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1218, in emit
+    StreamHandler.emit(self, record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 1100, in emit
+    msg = self.format(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 943, in format
+    return fmt.format(record)
+  File "/usr/local/lib/python3.10/logging/__init__.py", line 680, in format
+    record.asctime = self.formatTime(record, self.datefmt)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/utils/log/timezone_aware.py", line 42, in formatTime
+    dt = pendulum.from_timestamp(record.created, tz=pendulum.local_timezone())
+  File "/home/airflow/.local/lib/python3.10/site-packages/pendulum/__init__.py", line 279, in from_timestamp
+    dt = dt.in_timezone(tz)
+  File "/home/airflow/.local/lib/python3.10/site-packages/pendulum/datetime.py", line 323, in in_timezone
+    return tz.convert(self, dst_rule=pendulum.POST_TRANSITION)
+  File "/home/airflow/.local/lib/python3.10/site-packages/pendulum/tz/timezone.py", line 74, in convert
+    return self._convert(dt)
+  File "/home/airflow/.local/lib/python3.10/site-packages/pendulum/tz/timezone.py", line 170, in _convert
+    transition = self._lookup_transition(stamp, is_utc=True)
+  File "/home/airflow/.local/lib/python3.10/site-packages/pendulum/tz/timezone.py", line 188, in _lookup_transition
+    lo, hi = 0, len(self._transitions)
+RecursionError: maximum recursion depth exceeded while calling a Python object
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 268, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 409 Client Error: Conflict for url: http+docker://localhost/v1.54/containers/2dd763af830451521012e02c1b867b7cfd8426dbf2b0a3c1a64a4163fc584914?v=False&link=False&force=False
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 432, in _run_image_with_mounts
+    self.cli.remove_container(self.container["Id"])
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/utils/decorators.py", line 19, in wrapped
+    return f(self, resource_id, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/container.py", line 1028, in remove_container
+    self._raise_for_status(res)
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/api/client.py", line 270, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+  File "/home/airflow/.local/lib/python3.10/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 409 Client Error for http+docker://localhost/v1.54/containers/2dd763af830451521012e02c1b867b7cfd8426dbf2b0a3c1a64a4163fc584914?v=False&link=False&force=False: Conflict ("cannot remove container "2dd763af830451521012e02c1b867b7cfd8426dbf2b0a3c1a64a4163fc584914": container is running: stop the container before removing or force remove")
+[2026-08-06T20:16:51.830+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260806T170000, start_date=20260806T184436, end_date=20260806T201651
+[2026-08-06T20:16:51.975+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 22 for task execution_pipeline_etl (409 Client Error for http+docker://localhost/v1.54/containers/2dd763af830451521012e02c1b867b7cfd8426dbf2b0a3c1a64a4163fc584914?v=False&link=False&force=False: Conflict ("cannot remove container "2dd763af830451521012e02c1b867b7cfd8426dbf2b0a3c1a64a4163fc584914": container is running: stop the container before removing or force remove"); 8559)
+[2026-08-06T20:16:52.097+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=8559, status='terminated', exitcode=1, started='18:44:35') (8559) terminated with exit code 1

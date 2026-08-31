@@ -626,7 +626,7 @@ class DashboardState(rx.State):
     kpi_attente_num: int = 0
     kpi_pieces_indexees: int = 0
     kpi_taux_restitution: float = 0.0
-    kpi_duree_moyenne: int = 0
+    kpi_duree_moyenne: float = 0.0
     kpi_dossiers_jour: float = 0.0
     kpi_top_archiviste: str = "—"
     kpi_top_total: int = 0
@@ -1178,7 +1178,19 @@ def filter_bar() -> rx.Component:
     input_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 12px", "font_size": "13px", "color": TEXT_MAIN, "width": "140px", "height": "38px"}
     btn_ghost = {"variant": "ghost", "size": "2", "color": BROWN, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"bg": BROWN, "color": WHITE, "transition": "all 0.2s ease"}}
     btn_muted = {"variant": "ghost", "size": "2", "color": TEXT_MUTED, "font_size": "12px", "border_radius": "20px", "border": f"1px solid {BORDER_CARD}", "padding": "8px 16px", "height": "38px", "cursor": "pointer", "_hover": {"color": BROWN, "border_color": BROWN, "transition": "all 0.2s ease"}}
-    select_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "font_size": "13px", "width": "130px", "height": "38px", "bg": WHITE, "color": TEXT_MAIN}
+    #select_style = {"border_radius": "8px", "border": f"1px solid {BORDER_CARD}", "font_size": "13px", "width": "130px", "height": "38px", "bg": WHITE, "color": TEXT_MAIN}
+    select_style = {
+        "background_color": "white",
+        "color": "#1A1A1A",
+        "border": "1px solid #CBD5E0",
+        "border_radius": "0.375rem",
+        "box_shadow": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "font_weight": "500",
+        "_hover": {
+            "border_color": "#718096"
+        }
+    }
+
 
     return rx.box(
         rx.hstack(
@@ -1193,8 +1205,8 @@ def filter_bar() -> rx.Component:
             ),
             rx.spacer(),
             rx.hstack(
-                rx.vstack(rx.text("BUREAU", **label_style), rx.select(["Tous", "Cadastre", "Conservation", "Domaines"], value=DashboardState.selected_service, on_change=DashboardState.set_service, **select_style), spacing="1", align_items="start"),
-                rx.vstack(rx.text("CSF", **label_style), rx.select(["Tous", "Dakar Plateau", "Ngor-Almadies", "Mbour"], value=DashboardState.selected_csf, on_change=DashboardState.set_csf, **select_style), spacing="1", align_items="start"),
+                rx.vstack(rx.text("BUREAU", **label_style), rx.select(["Tous", "Cadastre", "Conservation", "Domaines"], value=DashboardState.selected_service, on_change=DashboardState.set_service,variant="surface", color_scheme="gray", width="130px", height="38px", style={"font_size": "13px"}), spacing="1", align_items="start"), #**select_style), 
+                rx.vstack(rx.text("CSF", **label_style), rx.select(["Tous", "Dakar Plateau", "Ngor-Almadies", "Mbour"], value=DashboardState.selected_csf, on_change=DashboardState.set_csf, variant="surface",  color_scheme="gray", width="130px", height="38px", style={"font_size": "13px"}),spacing="1", align_items="start"), #**select_style), spacing="1", align_items="start"),
                 rx.vstack(rx.text("TYPE", **label_style), rx.select(DashboardState.type_options, value=DashboardState.selected_type, on_change=DashboardState.set_type, **select_style), spacing="1", align_items="start"),
                 spacing="5",
                 align_items="end",
@@ -1230,8 +1242,8 @@ def objectives_section() -> rx.Component:
         rx.heading("Objectifs de la période", size="4", color=TEXT_MAIN, font_weight="bold", margin_bottom="16px"),
         rx.grid(
             rx.box(rx.vstack(rx.text("Objectif fixé", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.hstack(rx.text(DashboardState.kpi_objectif.to_string(), font_size="36px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("dossiers", font_size="14px", color=TEXT_MUTED, margin_top="10px"), spacing="2", align_items="end", margin_top="12px"), rx.text("Objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="8px"), spacing="1", align_items="center", justify_content="center", height="100%"), padding="24px", bg=CREAM_CARD, border_radius="12px", border=f"1px solid #F5E6C8", width="100%", height="100%"),
-            rx.box(rx.vstack(rx.hstack(rx.text("Taux d'indexation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("layers", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_indexation}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_indexation}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.hstack(rx.text("Indexés vs objectif de la période", color=TEXT_MUTED, font_size="10px"), rx.spacer(), rx.text(f"×{DashboardState.kpi_ratio_indexation}", color=GOLD, font_size="10px", font_weight="bold"), width="100%", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
-            rx.box(rx.vstack(rx.hstack(rx.text("Taux de numérisation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("scan", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_num}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_num}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.text("Numérisés vs objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
+            rx.box(rx.vstack(rx.hstack(rx.text("Taux d'indexation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("layers", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_indexation}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_indexation}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.hstack(rx.text("Indexés / objectif de la période", color=TEXT_MUTED, font_size="10px"), rx.spacer(), rx.text(f"×{DashboardState.kpi_ratio_indexation}", color=GOLD, font_size="10px", font_weight="bold"), width="100%", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
+            rx.box(rx.vstack(rx.hstack(rx.text("Taux de numérisation", color=TEXT_MUTED, font_size="12px", font_weight="500"), rx.spacer(), rx.box(rx.icon("scan", size=16, color=GOLD), bg=ICON_BG, padding="6px", border_radius="8px"), width="100%", align_items="center"), rx.hstack(rx.text(f"{DashboardState.kpi_taux_num}", font_size="28px", font_weight="bold", color=TEXT_MAIN, line_height="1"), rx.text("%", font_size="16px", color=TEXT_MUTED, margin_top="4px"), spacing="1", align_items="end"), rx.box(rx.box(width=f"{DashboardState.kpi_bar_num}%", height="6px", bg=GOLD, border_radius="3px"), width="100%", bg="#F0E6D0", border_radius="3px", height="6px", margin_top="8px"), rx.text("Numérisés / objectif de la période", color=TEXT_MUTED, font_size="10px", margin_top="4px"), spacing="2", align_items="start", width="100%"), padding="20px", bg=WHITE, border_radius="12px", border=f"1px solid {BORDER_CARD}", box_shadow=SHADOW, width="100%", height="100%"),
             columns="3", spacing="4", width="100%",
         ),
         width="100%", spacing="0",
@@ -1421,7 +1433,7 @@ def complexity_table() -> rx.Component:
             rx.hstack(
                 rx.hstack(
                     rx.icon("bar-chart-3", size=16, color=GOLD),
-                    rx.text("Complexité onomastique par bureau", color=TEXT_MAIN, font_size="14px", font_weight="600"),
+                    rx.text("Complexité par bureau", color=TEXT_MAIN, font_size="14px", font_weight="600"),
                     spacing="2",
                     align_items="center"
                 ),
@@ -1477,7 +1489,7 @@ def es_stats_section() -> rx.Component:
                     rx.vstack(
                         rx.text("ENTRÉES", color=GREEN_TEXT, font_size="10px", font_weight="700", letter_spacing="1px"),
                         rx.text(DashboardState.stats_es["entrees"].to_string(), font_size="28px", font_weight="bold", color=GREEN_TEXT, line_height="1"),
-                        rx.text("Dossiers en entrée", color=TEXT_MUTED, font_size="11px"),
+                        rx.text("Enregistrements en entrée", color=TEXT_MUTED, font_size="11px"),
                         spacing="1",
                         align_items="center",
                         width="100%"
@@ -1491,7 +1503,7 @@ def es_stats_section() -> rx.Component:
                     rx.vstack(
                         rx.text("SORTIES", color=RED_TEXT, font_size="10px", font_weight="700", letter_spacing="1px"),
                         rx.text(DashboardState.stats_es["sorties"].to_string(), font_size="28px", font_weight="bold", color=RED_TEXT, line_height="1"),
-                        rx.text("Dossiers en sortie", color=TEXT_MUTED, font_size="11px"),
+                        rx.text("Enregistrements en sortie", color=TEXT_MUTED, font_size="11px"),
                         spacing="1",
                         align_items="center",
                         width="100%"

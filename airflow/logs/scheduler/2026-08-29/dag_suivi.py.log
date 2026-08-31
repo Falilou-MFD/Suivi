@@ -1,0 +1,24 @@
+[2026-08-29T23:47:57.791+0000] {processor.py:157} INFO - Started process (PID=1370) to work on /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:47:57.805+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/dag_suivi.py for tasks to queue
+[2026-08-29T23:47:57.818+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:47:57.818+0000] {dagbag.py:536} INFO - Filling up the DagBag from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:47:58.433+0000] {processor.py:839} INFO - DAG(s) dict_keys(['pipeline_ingestion_suivi']) retrieved from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:47:58.607+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:47:58.606+0000] {dag.py:2941} INFO - Sync 1 DAGs
+[2026-08-29T23:47:58.785+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:47:58.785+0000] {dag.py:3722} INFO - Setting next_dagrun for pipeline_ingestion_suivi to 2026-08-29T23:00:00+00:00, run_after=2026-08-30T00:00:00+00:00
+[2026-08-29T23:47:59.076+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/dag_suivi.py took 1.315 seconds
+[2026-08-29T23:48:29.510+0000] {processor.py:157} INFO - Started process (PID=1377) to work on /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:48:29.511+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/dag_suivi.py for tasks to queue
+[2026-08-29T23:48:29.515+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:48:29.514+0000] {dagbag.py:536} INFO - Filling up the DagBag from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:48:29.571+0000] {processor.py:839} INFO - DAG(s) dict_keys(['pipeline_ingestion_suivi']) retrieved from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:48:29.654+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:48:29.654+0000] {taskinstance.py:1939} ERROR - {'DAG Id': 'pipeline_ingestion_suivi', 'Task Id': 'execution_pipeline_etl', 'Run Id': 'scheduled__2026-08-28T12:00:00+00:00', 'Hostname': 'd84ceffe9ddb'}
+[2026-08-29T23:48:29.722+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:48:29.722+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260828T120000, start_date=20260828T133658, end_date=20260829T234829
+[2026-08-29T23:48:29.761+0000] {processor.py:790} INFO - Executed failure callback for <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-28T12:00:00+00:00 [failed]> in state failed
+[2026-08-29T23:48:29.836+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:48:29.835+0000] {dag.py:2941} INFO - Sync 1 DAGs
+[2026-08-29T23:48:29.901+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:48:29.900+0000] {dag.py:3722} INFO - Setting next_dagrun for pipeline_ingestion_suivi to 2026-08-29T23:00:00+00:00, run_after=2026-08-30T00:00:00+00:00
+[2026-08-29T23:48:29.965+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/dag_suivi.py took 0.460 seconds
+[2026-08-29T23:49:00.296+0000] {processor.py:157} INFO - Started process (PID=1382) to work on /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:49:00.300+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/dag_suivi.py for tasks to queue
+[2026-08-29T23:49:00.303+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:49:00.302+0000] {dagbag.py:536} INFO - Filling up the DagBag from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:49:00.356+0000] {processor.py:839} INFO - DAG(s) dict_keys(['pipeline_ingestion_suivi']) retrieved from /opt/airflow/dags/dag_suivi.py
+[2026-08-29T23:49:00.414+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:49:00.414+0000] {dag.py:2941} INFO - Sync 1 DAGs
+[2026-08-29T23:49:00.531+0000] {logging_mixin.py:151} INFO - [2026-08-29T23:49:00.531+0000] {dag.py:3722} INFO - Setting next_dagrun for pipeline_ingestion_suivi to 2026-08-29T23:00:00+00:00, run_after=2026-08-30T00:00:00+00:00
+[2026-08-29T23:49:00.600+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/dag_suivi.py took 0.310 seconds

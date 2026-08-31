@@ -1,0 +1,64 @@
+[2026-08-07T09:38:01.712+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-07T01:00:00+00:00 [queued]>
+[2026-08-07T09:38:01.793+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-07T01:00:00+00:00 [queued]>
+[2026-08-07T09:38:01.819+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2026-08-07T09:38:02.234+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): execution_pipeline_etl> on 2026-08-07 01:00:00+00:00
+[2026-08-07T09:38:02.296+0000] {standard_task_runner.py:57} INFO - Started process 11073 to run task
+[2026-08-07T09:38:02.326+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'pipeline_ingestion_suivi', 'execution_pipeline_etl', 'scheduled__2026-08-07T01:00:00+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/dag_suivi.py', '--cfg-path', '/tmp/tmpsjkbbbex']
+[2026-08-07T09:38:02.360+0000] {standard_task_runner.py:85} INFO - Job 30: Subtask execution_pipeline_etl
+[2026-08-07T09:38:02.987+0000] {task_command.py:416} INFO - Running <TaskInstance: pipeline_ingestion_suivi.execution_pipeline_etl scheduled__2026-08-07T01:00:00+00:00 [running]> on host 7bf36b9eabda
+[2026-08-07T09:38:03.800+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='falilou_mfd' AIRFLOW_CTX_DAG_ID='pipeline_ingestion_suivi' AIRFLOW_CTX_TASK_ID='execution_pipeline_etl' AIRFLOW_CTX_EXECUTION_DATE='2026-08-07T01:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-08-07T01:00:00+00:00'
+[2026-08-07T09:38:04.418+0000] {docker.py:337} INFO - Starting docker container from image suivi_data_processor:v1
+[2026-08-07T09:38:15.671+0000] {docker.py:406} INFO - 🌍 Début de l'extraction pour le site : Dakar Plateau (dkp)
+  📥 Extraction de Cadastre depuis [cadastre_dkp_db]...
+[2026-08-07T09:38:25.190+0000] {docker.py:406} INFO - 🔎 DEBUG [cadastre_dkp_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Domaines depuis [domaines_dkp_db]...
+[2026-08-07T09:38:27.391+0000] {docker.py:406} INFO - 🔎 DEBUG [domaines_dkp_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Conservation depuis [conservation_dkp_db]...
+[2026-08-07T09:38:38.257+0000] {docker.py:406} INFO - 🔎 DEBUG [conservation_dkp_db] Entrées liées à une sortie (output_id) après dedup : 0
+
+🌍 Début de l'extraction pour le site : Ngor-Almadies (nga)
+  📥 Extraction de Cadastre depuis [cadastre_nga_db]...
+[2026-08-07T09:38:43.801+0000] {docker.py:406} INFO - 🔎 DEBUG [cadastre_nga_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Domaines depuis [domaines_nga_db]...
+[2026-08-07T09:38:45.802+0000] {docker.py:406} INFO - 🔎 DEBUG [domaines_nga_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Conservation depuis [conservation_nga_db]...
+[2026-08-07T09:38:48.195+0000] {docker.py:406} INFO - 🔎 DEBUG [conservation_nga_db] Entrées liées à une sortie (output_id) après dedup : 0
+
+🌍 Début de l'extraction pour le site : Mbour (mb)
+  📥 Extraction de Cadastre depuis [cadastre_mb_db]...
+[2026-08-07T09:38:50.677+0000] {docker.py:406} INFO - 🔎 DEBUG [cadastre_mb_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Domaines depuis [domaines_mb_db]...
+[2026-08-07T09:38:50.783+0000] {docker.py:406} INFO - 🔎 DEBUG [domaines_mb_db] Entrées liées à une sortie (output_id) après dedup : 0
+  📥 Extraction de Conservation depuis [conservation_mb_db]...
+[2026-08-07T09:38:52.386+0000] {docker.py:406} INFO - 🔎 DEBUG [conservation_mb_db] Entrées liées à une sortie (output_id) après dedup : 0
+[2026-08-07T09:38:52.407+0000] {docker.py:406} INFO - /app/main.py:148: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-08-07T09:38:52.447+0000] {docker.py:406} INFO - /app/main.py:148: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-08-07T09:38:52.452+0000] {docker.py:406} INFO - /app/main.py:148: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-08-07T09:38:52.461+0000] {docker.py:406} INFO - /app/main.py:148: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  df_total = pd.concat(all_dataframes, ignore_index=True)
+[2026-08-07T09:38:52.509+0000] {docker.py:406} INFO - 🔎 DEBUG df_total juste après concat : 0 Entrées avec output_id
+[2026-08-07T09:38:52.685+0000] {docker.py:406} INFO - 🔎 DEBUG après to_datetime : sortie_record_date non-null=25072, registration_date non-null=70128
+[2026-08-07T09:38:58.484+0000] {docker.py:406} INFO - 🔎 DEBUG duree_numerisation_h non-null au final : 27270
+[2026-08-07T09:38:58.514+0000] {docker.py:406} INFO - 🚀 Initialisation de la base DuckDB à l'emplacement : /app/duckdb_store/analytics.duckdb
+[2026-08-07T09:38:58.567+0000] {docker.py:406} INFO - Traceback (most recent call last):
+  File "/app/main.py", line 334, in <module>
+[2026-08-07T09:38:58.570+0000] {docker.py:406} INFO - extract_and_transform()
+  File "/app/main.py", line 265, in extract_and_transform
+[2026-08-07T09:38:58.571+0000] {docker.py:406} INFO - con = duckdb.connect(duckdb_path)
+_duckdb.IOException: IO Error: Could not set lock on file "/app/duckdb_store/analytics.duckdb": Conflicting lock is held in PID 0. See also https://duckdb.org/docs/stable/connect/concurrency
+[2026-08-07T09:38:59.807+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 479, in execute
+    return self._run_image()
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 354, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/docker/operators/docker.py", line 414, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-08-07T09:38:59.831+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion_suivi, task_id=execution_pipeline_etl, execution_date=20260807T010000, start_date=20260807T093801, end_date=20260807T093859
+[2026-08-07T09:38:59.913+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 30 for task execution_pipeline_etl (Docker container failed: {'StatusCode': 1}; 11073)
+[2026-08-07T09:38:59.968+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-08-07T09:39:00.040+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
